@@ -39,9 +39,12 @@ public class Persistence {
 //    }
 
     public List<Student> students() {
-        jdbi.withHandle(handle ->
-                handle.createQuery(create().locate("select_student"))).mapTo(Student.class).forEach(student -> System.out.println(student.classNumber()));
-        return Collections.singletonList(new Student(1, "antoni", "karwowsky", 3));
+        return jdbi.inTransaction(handle -> handle.createQuery(create().locate("select_student"))
+                .mapTo(Student.class).list());
+    }
+
+    public void addStudent(Student student) {
+//        jdbi.inTransaction(handle -> handle.createQuery(c))
     }
 
     public List<Teacher> teachers() {

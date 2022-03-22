@@ -1,4 +1,4 @@
 package model;
 
-public record Teacher(long id, String firstName, String secondName) {
+public record Teacher(long id, String firstName, String lastName) {
 }

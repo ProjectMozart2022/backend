@@ -1,1 +1,1 @@
-select * from profile
+select id, name, lesson_length as length, class_range as classRange, is_itn as itn from profile

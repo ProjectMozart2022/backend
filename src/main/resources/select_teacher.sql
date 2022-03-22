@@ -1,1 +1,1 @@
-select * from teacher
+select id, first_name as firstName, last_name as lastName from teacher
