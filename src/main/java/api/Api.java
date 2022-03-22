@@ -1,5 +1,6 @@
 package api;
 
+import com.google.gson.Gson;
 import model.Profile;
 import model.Student;
 import model.Teacher;
@@ -15,6 +16,7 @@ import static spark.Spark.*;
 
 public class Api {
     private static final Logger log = LoggerFactory.getLogger(Api.class);
+    private static final Gson gson = new Gson();
     private static final Persistence persistence = new Persistence(
             "jdbc:postgresql://localhost:5432/postgres",
             "mozart",
@@ -25,16 +27,16 @@ public class Api {
         path("/api", () -> {
             before("/*", (q, a) -> log.info("Received api call"));
             path("/student", () -> {
-                get("", Api::getStudents);
-                put("", Api::putStudents);
+                get("", Api::getStudents, gson::toJson);
+                put("", Api::putStudents, gson::toJson);
             });
             path("/teacher", () -> {
-                get("", Api::getTeachers);
-                put("", Api::putTeachers);
+                get("", Api::getTeachers, gson::toJson);
+                put("", Api::putTeachers, gson::toJson);
             });
             path("/profile", () -> {
-                get("", Api::getProfiles);
-                put("", Api::putProfiles);
+                get("", Api::getProfiles, gson::toJson);
+                put("", Api::putProfiles, gson::toJson);
             });
         });
     }
