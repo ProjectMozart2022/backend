@@ -12,6 +12,7 @@ import spark.Response;
 
 import java.util.List;
 
+import static java.lang.Long.parseLong;
 import static spark.Spark.*;
 
 public class Api {
@@ -25,18 +26,23 @@ public class Api {
 
     public static void main(String[] args) {
         path("/api", () -> {
-            before("/*", (q, a) -> log.info("Received api call"));
             path("/student", () -> {
                 get("", Api::getStudents, gson::toJson);
-                put("", Api::putStudents, gson::toJson);
+                post("", Api::addStudent);
+                put("", Api::updateStudent);
+                delete("", Api::deleteStudent);
             });
             path("/teacher", () -> {
                 get("", Api::getTeachers, gson::toJson);
-                put("", Api::putTeachers, gson::toJson);
+                put("", Api::addTeacher, gson::toJson);
+                put("", Api::updateTeacher);
+                delete("", Api::deleteTeacher);
             });
             path("/profile", () -> {
                 get("", Api::getProfiles, gson::toJson);
-                put("", Api::putProfiles, gson::toJson);
+                put("", Api::addProfile, gson::toJson);
+                put("", Api::updateProfile);
+                delete("", Api::deleteProfile);
             });
         });
     }
@@ -53,19 +59,80 @@ public class Api {
         return persistence.profiles();
     }
 
-    private static boolean putStudents(Request request, Response response) {
-//        persistence.addStudent(new Student());
-        return true;
+    //todo scrutinize why request is empty
+    private static long addStudent(Request request, Response response) {
+        Student newStudent = gson.fromJson(request.body(), Student.class);
+        long id = persistence.addStudent(newStudent);
+        response.status(HTTP_CREATED);
+        response.body("Successfully created student with id [" + id + "]");
+        return id;
     }
 
-    private static boolean putTeachers(Request request, Response response) {
-//        persistence.addTeacher(new Student());
-        return true;
+    private static long addTeacher(Request request, Response response) {
+        Teacher newTeacher = gson.fromJson(request.body(), Teacher.class);
+        long id = persistence.addTeacher(newTeacher);
+        response.status(HTTP_CREATED);
+        response.body("Successfully created teacher with id [" + id + "]");
+        return id;
     }
 
-    private static boolean putProfiles(Request request, Response response) {
-//        persistence.addProfile(new Student());
-        return true;
+    private static long addProfile(Request request, Response response) {
+        Profile newProfile = gson.fromJson(request.body(), Profile.class);
+        long id = persistence.addProfile(newProfile);
+        response.status(HTTP_CREATED);
+        response.body("Successfully created profile with id [" + id + "]");
+        return id;
     }
+
+    private static long updateStudent(Request request, Response response) {
+        Student updatedStudent = gson.fromJson(request.body(), Student.class);
+        long id = persistence.updateStudent(updatedStudent);
+        response.status(HTTP_OK);
+        response.body("Successfully updated student with id [" + id + "]");
+        return id;
+    }
+
+    private static long updateTeacher(Request request, Response response) {
+        Teacher updatedTeacher = gson.fromJson(request.body(), Teacher.class);
+        long id = persistence.addTeacher(updatedTeacher);
+        response.status(HTTP_OK);
+        response.body("Successfully updated teacher with id [" + id + "]");
+        return id;
+    }
+
+    private static long updateProfile(Request request, Response response) {
+        Profile updatedProfile = gson.fromJson(request.body(), Profile.class);
+        long id = persistence.addProfile(updatedProfile);
+        response.status(HTTP_OK);
+        response.body("Successfully updated profile with id [" + id + "]");
+        return id;
+    }
+    //have to scrutinize how to make delete methods void because they're not allowed
+    private static long deleteStudent(Request request, Response response) {
+        long id = parseLong(request.queryParams("id"));
+        persistence.deleteStudent(id);
+        response.status(HTTP_OK);
+        response.body("Successfully deleted student with id [" + id + "]");
+        return id;
+    }
+
+    private static long deleteTeacher(Request request, Response response) {
+        long id = parseLong(request.queryParams("id"));
+        persistence.deleteTeacher(id);
+        response.status(HTTP_OK);
+        response.body("Successfully created profile with id [" + id + "]");
+        return id;
+    }
+
+    private static long deleteProfile(Request request, Response response) {
+        long id = parseLong(request.queryParams("id"));
+        persistence.deleteProfile(id);
+        response.status(HTTP_OK);
+        response.body("Successfully created profile with id [" + id + "]");
+        return id;
+    }
+
+    final static int HTTP_OK = 200;
+    final static int HTTP_CREATED = 201;
 }
 

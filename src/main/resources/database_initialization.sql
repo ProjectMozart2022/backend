@@ -7,14 +7,16 @@ CREATE TABLE student
      id              SERIAL PRIMARY KEY,
      first_name      VARCHAR,
      last_name       VARCHAR,
-     class_number    INTEGER
+     class_number    INTEGER,
+     is_present      bool
   );
 
 CREATE TABLE teacher
   (
      id              SERIAL PRIMARY KEY,
      first_name      VARCHAR,
-     last_name       VARCHAR
+     last_name       VARCHAR,
+     is_present      bool
   );
 
 CREATE TABLE profile
@@ -23,6 +25,7 @@ CREATE TABLE profile
      name            VARCHAR,
      lesson_length   INTEGER,
      class_range     VARCHAR,
-     is_itn          BIT
+     is_itn          bool,
+     is_present      bool
   );
 
