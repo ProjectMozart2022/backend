@@ -28,21 +28,21 @@ public class Api {
         path("/api", () -> {
             path("/student", () -> {
                 get("", Api::getStudents, gson::toJson);
-                post("", Api::addStudent);
-                put("", Api::updateStudent);
-                delete("", Api::deleteStudent);
+                post("", Api::addStudent, gson::toJson);
+                put("", Api::updateStudent, gson::toJson);
+                delete("", Api::deleteStudent, gson::toJson);
             });
             path("/teacher", () -> {
                 get("", Api::getTeachers, gson::toJson);
-                put("", Api::addTeacher, gson::toJson);
-                put("", Api::updateTeacher);
-                delete("", Api::deleteTeacher);
+                post("", Api::addTeacher, gson::toJson);
+                put("", Api::updateTeacher, gson::toJson);
+                delete("", Api::deleteTeacher, gson::toJson);
             });
             path("/profile", () -> {
                 get("", Api::getProfiles, gson::toJson);
-                put("", Api::addProfile, gson::toJson);
-                put("", Api::updateProfile);
-                delete("", Api::deleteProfile);
+                post("", Api::addProfile, gson::toJson);
+                put("", Api::updateProfile, gson::toJson);
+                delete("", Api::deleteProfile, gson::toJson);
             });
         });
     }
