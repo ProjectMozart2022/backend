@@ -1,1 +1,0 @@
-select id, first_name as firstName, last_name as lastName, class_number as classNumber from student where is_present is true id=:id;

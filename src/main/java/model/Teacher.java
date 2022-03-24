@@ -1,3 +1,3 @@
 package model;
 
-public record Teacher(long id, String firstName, String lastName, boolean present) { }
+public record Teacher(long id, String firstName, String lastName) { }

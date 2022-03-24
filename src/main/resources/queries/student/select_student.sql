@@ -1,0 +1,1 @@
+select id, first_name as firstName, last_name as lastName, class_number as classNumber from student;
