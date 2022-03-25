@@ -1,1 +1,1 @@
-select id, first_name as firstName, last_name as lastName from teacher where is_present is true;
+select id, first_name as firstName, last_name as lastName from teacher;

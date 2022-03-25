@@ -1,1 +1,1 @@
-select id, name, lesson_length as lessonLength, class_range as classRange, is_itn as itn from profile where is_present is true and id=:id;
+select id, name, lesson_length as lessonLength, class_range as classRange, is_itn as itn from profile where id=:id;

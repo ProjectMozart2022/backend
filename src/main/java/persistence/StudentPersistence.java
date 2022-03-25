@@ -29,27 +29,27 @@ public class StudentPersistence extends Persistence {
                 .one());
   }
 
-  public long addStudent(Student requestedStudent) {
+  public long addStudent(String firstName, String lastName, int classNumber) {
     return jdbi.inTransaction(
             handle ->
                 handle
                     .createUpdate(create().locate("queries/student/add_student"))
-                    .bind("first_name", requestedStudent.firstName())
-                    .bind("last_name", requestedStudent.lastName())
-                    .bind("class_number", requestedStudent.classNumber())
+                    .bind("first_name", firstName)
+                    .bind("last_name", lastName)
+                    .bind("class_number", classNumber)
                     .executeAndReturnGeneratedKeys("id"))
         .mapTo(Long.class)
         .one();
   }
 
-  public long updateStudent(Student requestedStudent) {
+  public long updateStudent(String firstName, String lastName, int classNumber) {
     return jdbi.inTransaction(
             handle ->
                 handle
                     .createUpdate(create().locate("queries/student/update_student"))
-                    .bind("first_name", requestedStudent.firstName())
-                    .bind("last_name", requestedStudent.lastName())
-                    .bind("class_number", requestedStudent.classNumber())
+                    .bind("first_name", firstName)
+                    .bind("last_name", lastName)
+                    .bind("class_number", classNumber)
                     .executeAndReturnGeneratedKeys("id"))
         .mapTo(Long.class)
         .one();
