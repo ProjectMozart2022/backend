@@ -5,11 +5,7 @@ import com.typesafe.config.ConfigFactory;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
-import model.Profile;
-import model.Student;
-import model.Teacher;
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.mapper.reflect.ConstructorMapper;
 
 public abstract class Persistence {
   protected final Jdbi jdbi;
@@ -22,10 +18,6 @@ public abstract class Persistence {
     hikariConfig.setPassword(conf.getString("mozart.database.password"));
     hikariConfig.setMaximumPoolSize(conf.getInt("mozart.database.connection-pool"));
     DataSource dataSource = new HikariDataSource(hikariConfig);
-    jdbi =
-        Jdbi.create(dataSource)
-            .registerRowMapper(ConstructorMapper.factory(Profile.class))
-            .registerRowMapper(ConstructorMapper.factory(Student.class))
-            .registerRowMapper(ConstructorMapper.factory(Teacher.class));
+    jdbi = Jdbi.create(dataSource);
   }
 }

@@ -3,11 +3,8 @@ package api;
 import static spark.Spark.*;
 
 import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Api {
-  private static final Logger log = LoggerFactory.getLogger(Api.class);
   private static final Gson gson = new Gson();
   private static final ProfileApi profileApi = new ProfileApi();
   private static final TeacherApi teacherApi = new TeacherApi();
