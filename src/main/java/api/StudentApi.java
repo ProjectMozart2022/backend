@@ -25,35 +25,37 @@ public class StudentApi {
         return persistence.getStudents();
     }
 
-    public long addStudent(Request request, Response response) {
+    public Response addStudent(Request request, Response response) {
         JsonObject requestBody = gson.fromJson(request.body(), JsonObject.class);
-        long id = persistence.addStudent(
+        persistence.addStudent(
                 requestBody.get("first_name").getAsString(),
                 requestBody.get("last_name").getAsString(),
                 requestBody.get("class_number").getAsInt()
         );
         response.status(HTTP_CREATED);
-        response.body("Successfully created student with id [" + id + "]");
-        return id;
+        response.body("Successfully created student");
+        return response;
     }
 
-    public long updateStudent(Request request, Response response) {
+    public Response updateStudent(Request request, Response response) {
         JsonObject requestBody = gson.fromJson(request.body(), JsonObject.class);
-        long id = persistence.updateStudent(
+        persistence.updateStudent(new Student(
+                requestBody.get("id").getAsLong(),
                 requestBody.get("first_name").getAsString(),
                 requestBody.get("last_name").getAsString(),
                 requestBody.get("class_number").getAsInt()
-        );
+        ));
         response.status(HTTP_OK);
-        response.body("Successfully updated student with id [" + id + "]");
-        return id;
+        response.body("Successfully updated student");
+        return response;
     }
 
-    public long deleteStudent(Request request, Response response) {
-        long id = parseLong(request.queryParams("id"));
+    public Response deleteStudent(Request request, Response response) {
+        JsonObject requestBody = gson.fromJson(request.body(), JsonObject.class);
+        long id = requestBody.get("id").getAsLong();
         persistence.deleteStudent(id);
         response.status(HTTP_OK);
         response.body("Successfully deleted student with id [" + id + "]");
-        return id;
+        return response;
     }
 }

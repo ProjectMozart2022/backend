@@ -1,3 +1,3 @@
 UPDATE student
-SET first_name=:firstName, last_name=:lastName, class_number=:classNumber
+SET first_name=:first_name, last_name=:last_name, class_number=:class_number
 WHERE id=:id;
