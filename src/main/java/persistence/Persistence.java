@@ -19,5 +19,6 @@ public abstract class Persistence {
     hikariConfig.setMaximumPoolSize(conf.getInt("mozart.database.connection-pool"));
     DataSource dataSource = new HikariDataSource(hikariConfig);
     jdbi = Jdbi.create(dataSource);
+    jdbi.registerArrayType(int.class, "integer");
   }
 }

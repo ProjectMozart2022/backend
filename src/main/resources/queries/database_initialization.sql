@@ -22,7 +22,7 @@ CREATE TABLE profile
      id              SERIAL PRIMARY KEY,
      name            VARCHAR,
      lesson_length   INTEGER,
-     class_range     VARCHAR,
+     class_range     INTEGER [],
      is_itn          bool
   );
 

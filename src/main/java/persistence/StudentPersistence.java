@@ -14,7 +14,7 @@ public class StudentPersistence extends Persistence {
     return jdbi.inTransaction(
         handle ->
             handle
-                .createQuery(create().locate("queries/student/select_student"))
+                .createQuery(create().locate("queries/student/select_students"))
                 .mapToBean(Student.class)
                 .list());
   }
