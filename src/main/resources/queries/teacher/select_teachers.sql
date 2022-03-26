@@ -1,1 +1,1 @@
-select id, first_name as firstName, last_name as lastName from teacher;
+SELECT id, first_name AS firstName, last_name AS lastName FROM teacher;

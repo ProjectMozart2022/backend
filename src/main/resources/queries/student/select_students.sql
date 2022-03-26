@@ -1,1 +1,1 @@
-select id, first_name as firstName, last_name as lastName, class_number as classNumber from student;
+SELECT id, first_name AS firstName, last_name AS lastName, class_number AS classNumber FROM student;

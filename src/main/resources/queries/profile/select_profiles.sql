@@ -1,1 +1,1 @@
-select id, name, lesson_length as lessonLength, class_range as classRange, is_itn as itn from profile;
+SELECT id, name, lesson_length AS lessonLength, class_range AS classRange, is_itn AS itn FROM profile;
