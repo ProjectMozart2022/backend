@@ -73,6 +73,12 @@
             <artifactId>config</artifactId>
             <version>${config.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>8.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
