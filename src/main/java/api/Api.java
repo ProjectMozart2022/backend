@@ -1,6 +1,8 @@
 package api;
 
 import static spark.Spark.*;
+
+import api.security.FirebaseConfig;
 import com.google.gson.Gson;
 
 import java.io.IOException;
