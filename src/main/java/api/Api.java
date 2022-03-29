@@ -3,6 +3,8 @@ package api;
 import static spark.Spark.*;
 
 import com.google.gson.Gson;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 public class Api {
   private static final Gson gson = new Gson();
@@ -11,6 +13,8 @@ public class Api {
   private static final StudentApi studentApi = new StudentApi();
 
   public static void main(String[] args) {
+    Config config = ConfigFactory.load();
+    port(config.getInt("mozart.api.port"));
     //      add preflight and cors
     options(
         "/*",
@@ -27,6 +31,7 @@ public class Api {
 
           return "OK";
         });
+
     before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
     path(
         "/api",
