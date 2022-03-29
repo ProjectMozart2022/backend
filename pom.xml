@@ -96,7 +96,6 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
                             <mainClass>api.Api</mainClass>
                         </manifest>
                     </archive>
