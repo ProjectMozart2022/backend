@@ -34,7 +34,7 @@ public class TeacherPersistence extends Persistence {
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/update_teacher"))
-                    .bind("id", requestedTeacher.getId())
+                .bind("id", requestedTeacher.getId())
                 .bind("first_name", requestedTeacher.getFirstName())
                 .bind("last_name", requestedTeacher.getLastName())
                 .execute());
