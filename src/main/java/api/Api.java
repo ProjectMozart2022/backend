@@ -1,13 +1,7 @@
 package api;
 
-import static api.security.AccountRole.*;
-import static spark.Spark.*;
-
 import api.security.Account;
-import api.security.AccountRole;
 import api.security.FirebaseConfig;
-import api.security.SecurityService;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
@@ -18,6 +12,10 @@ import spark.Response;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Objects;
+
+import static api.security.AccountRole.ADMIN;
+import static api.security.SecurityService.decodeAndGetEmail;
+import static spark.Spark.*;
 
 public class Api {
     private static final Gson gson = new Gson();
@@ -129,11 +127,6 @@ public class Api {
                 return true;
             default: return false;
         }
-    }
-
-    private static String decodeAndGetEmail(Request request) throws FirebaseAuthException {
-        String jwt = SecurityService.getBearerToken(request);
-        return FirebaseAuth.getInstance().verifyIdToken(jwt).getEmail();
     }
 }
 
