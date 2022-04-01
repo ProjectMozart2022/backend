@@ -2,19 +2,31 @@ package api;
 
 import static spark.Spark.*;
 
+import api.security.Account;
 import api.security.FirebaseConfig;
+import api.security.SecurityService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.gson.Gson;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import spark.Request;
+import spark.Response;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.Objects;
 
 public class Api {
     private static final Gson gson = new Gson();
     private static final ProfileApi profileApi = new ProfileApi();
     private static final TeacherApi teacherApi = new TeacherApi();
     private static final StudentApi studentApi = new StudentApi();
+    private static final AccountApi accountApi = new AccountApi();
 
     public static void main(String[] args) throws IOException {
-        FirebaseConfig.initialize();
+        Config config = ConfigFactory.load();
+        FirebaseConfig.initialize(config.getString("serviceAccountKey"));
 //      add preflight and cors
         options("/*",
                 (request, response) -> {
@@ -39,9 +51,16 @@ public class Api {
         path(
                 "/api",
                 () -> {
+                    get("/login", accountApi::getAccount, gson::toJson);
                     path(
+
                             "/student",
                             () -> {
+                                before((request, response) -> {
+                                    if (!isAuthenticated(request, response)) {
+                                        halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
+                                    }
+                                });
                                 get("", studentApi::getStudents, gson::toJson);
                                 post("", studentApi::addStudent, gson::toJson);
                                 put("", studentApi::updateStudent, gson::toJson);
@@ -50,6 +69,11 @@ public class Api {
                     path(
                             "/teacher",
                             () -> {
+                                before((request, response) -> {
+                                    if (!isAuthenticated(request, response)) {
+                                        halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
+                                    }
+                                });
                                 get("", teacherApi::getTeachers, gson::toJson);
                                 post("", teacherApi::addTeacher, gson::toJson);
                                 put("", teacherApi::updateTeacher, gson::toJson);
@@ -58,12 +82,38 @@ public class Api {
                     path(
                             "/profile",
                             () -> {
+                                before((request, response) -> {
+                                    if (!isAuthenticated(request, response)) {
+                                        halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
+                                    }
+                                });
                                 get("", profileApi::getProfiles, gson::toJson);
                                 post("", profileApi::addProfile, gson::toJson);
                                 put("", profileApi::updateProfile, gson::toJson);
                                 delete("", profileApi::deleteProfile, gson::toJson);
                             });
                 });
+    }
+
+    private static boolean isAuthenticated(Request request, Response response) throws FirebaseAuthException {
+        String email = decodeAndGetEmail(request);
+        Account account = accountApi.getAccount(request, response);
+        if (!Objects.equals(email, account.getEmail())) {
+            return false;
+        }
+        switch (account.getRole()) {
+            case ADMIN, TEACHER -> {
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    private static String decodeAndGetEmail(Request request) throws FirebaseAuthException {
+        String jwt = SecurityService.getBearerToken(request);
+        return FirebaseAuth.getInstance().verifyIdToken(jwt).getEmail();
     }
 }
 

@@ -3,6 +3,8 @@ package persistence;
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.List;
+
+import api.security.Account;
 import model.Teacher;
 
 public class TeacherPersistence extends Persistence {
@@ -19,24 +21,24 @@ public class TeacherPersistence extends Persistence {
                 .list());
   }
 
-  public void addTeacher(Teacher createdTeacher) {
+  public void addTeacher(Teacher teacher) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/add_teacher"))
-                .bind("first_name", createdTeacher.getFirstName())
-                .bind("last_name", createdTeacher.getLastName())
+                .bind("first_name", teacher.getFirstName())
+                .bind("last_name", teacher.getLastName())
                 .execute());
   }
 
-  public void updateTeacher(Teacher requestedTeacher) {
+  public void updateTeacher(Teacher teacher) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/update_teacher"))
-                .bind("id", requestedTeacher.getId())
-                .bind("first_name", requestedTeacher.getFirstName())
-                .bind("last_name", requestedTeacher.getLastName())
+                    .bind("id", teacher.getId())
+                .bind("first_name", teacher.getFirstName())
+                .bind("last_name", teacher.getLastName())
                 .execute());
   }
 
@@ -47,5 +49,15 @@ public class TeacherPersistence extends Persistence {
                 .createUpdate(create().locate("queries/teacher/delete_teacher"))
                 .bind("id", id)
                 .execute());
+  }
+
+  public Teacher getTeacher(long id) {
+    return jdbi.inTransaction(
+            handle ->
+                    handle
+                            .createQuery(create().locate("queries/teacher/select_teacher"))
+                            .bind("id", id)
+                            .mapToBean(Teacher.class)
+                            .one());
   }
 }
