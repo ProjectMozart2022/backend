@@ -1,8 +1,10 @@
 package api;
 
+import static api.security.AccountRole.*;
 import static spark.Spark.*;
 
 import api.security.Account;
+import api.security.AccountRole;
 import api.security.FirebaseConfig;
 import api.security.SecurityService;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +59,7 @@ public class Api {
                             "/student",
                             () -> {
                                 before((request, response) -> {
-                                    if (!isAuthenticated(request, response)) {
+                                    if (!isAdmin(request, response)) {
                                         halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
                                     }
                                 });
@@ -70,7 +72,7 @@ public class Api {
                             "/teacher",
                             () -> {
                                 before((request, response) -> {
-                                    if (!isAuthenticated(request, response)) {
+                                    if (!isAdmin(request, response)) {
                                         halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
                                     }
                                 });
@@ -78,12 +80,22 @@ public class Api {
                                 post("", teacherApi::addTeacher, gson::toJson);
                                 put("", teacherApi::updateTeacher, gson::toJson);
                                 delete("", teacherApi::deleteTeacher, gson::toJson);
+
+                                path("/teacher/ping",
+                                        () -> {
+                                            before((request, response) -> {
+                                                if (!isAuthenticated(request, response)) {
+                                                    halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
+                                                }
+                                            });
+                                            get("", (request, response) -> "pong");
+                                        });
                             });
                     path(
                             "/profile",
                             () -> {
                                 before((request, response) -> {
-                                    if (!isAuthenticated(request, response)) {
+                                    if (!isAdmin(request, response)) {
                                         halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
                                     }
                                 });
@@ -93,6 +105,15 @@ public class Api {
                                 delete("", profileApi::deleteProfile, gson::toJson);
                             });
                 });
+    }
+
+    private static boolean isAdmin(Request request, Response response) throws FirebaseAuthException {
+        String email = decodeAndGetEmail(request);
+        Account account = accountApi.getAccount(request, response);
+        if (!Objects.equals(email, account.getEmail())) {
+            return false;
+        }
+        return account.getRole() == ADMIN;
     }
 
     private static boolean isAuthenticated(Request request, Response response) throws FirebaseAuthException {
