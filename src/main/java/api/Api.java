@@ -28,7 +28,8 @@ public class Api {
 
     public static void main(String[] args) throws IOException {
         Config config = ConfigFactory.load();
-        FirebaseConfig.initialize(config.getString("serviceAccountKey"));
+        port(config.getInt("mozart.api.port"));
+        FirebaseConfig.initialize(config.getString("mozart.security.serviceAccountKey"));
 //      add preflight and cors
         options("/*",
                 (request, response) -> {
@@ -123,12 +124,10 @@ public class Api {
             return false;
         }
         switch (account.getRole()) {
-            case ADMIN, TEACHER -> {
+            case ADMIN:
+            case TEACHER:
                 return true;
-            }
-            default -> {
-                return false;
-            }
+            default: return false;
         }
     }
 
