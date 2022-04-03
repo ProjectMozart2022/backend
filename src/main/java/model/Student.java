@@ -1,12 +1,12 @@
 package model;
 
 public class Student {
-  private int id;
+  private long id;
   private String firstName;
   private String lastName;
   private int classNumber;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 

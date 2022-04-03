@@ -1,1 +1,1 @@
-SELECT id, email, password, role FROM account;
+SELECT id, email, password, role, firebase_uid FROM account;

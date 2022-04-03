@@ -1,12 +1,13 @@
 package api.security;
 
 public class Account {
-    private int id;
+    private long id;
     private String email;
     private String password;
     private AccountRole role;
+    private String firebaseUid;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -36,5 +37,13 @@ public class Account {
 
     public void setRole(AccountRole role) {
         this.role = role;
+    }
+
+    public String getFirebaseUid() {
+        return firebaseUid;
+    }
+
+    public void setFirebaseUid(String firebaseUid) {
+        this.firebaseUid = firebaseUid;
     }
 }

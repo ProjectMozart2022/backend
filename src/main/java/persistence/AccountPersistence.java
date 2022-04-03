@@ -20,21 +20,42 @@ public class AccountPersistence extends Persistence {
                                 .list());
     }
 
-    public Account getAccount(long id) {
+    public Account getAccountById(long id) {
         return jdbi.inTransaction(
                 handle ->
                         handle
-                                .createQuery(create().locate("queries/account/select_account"))
+                                .createQuery(create().locate("queries/account/select_account_by_id"))
                                 .bind("id", id)
                                 .mapToBean(Account.class)
                                 .one());
     }
 
-    public void addAccount(Account newAccount) {
+    public Account getAccountByFirebaseUid(String uid) {
+        return jdbi.inTransaction(
+                handle ->
+                        handle
+                                .createQuery(create().locate("queries/account/select_account_by_firebase_uid"))
+                                .bind("firebase_uid", uid)
+                                .mapToBean(Account.class)
+                                .one());
+    }
+
+    public Account getAccountByTeacherId(long id) {
+        return jdbi.inTransaction(
+                handle ->
+                        handle
+                                .createQuery(create().locate("queries/account/select_account_by_teacher_id"))
+                                .bind("id", id)
+                                .mapToBean(Account.class)
+                                .one());
+    }
+
+    public void addAccount(Account newAccount, String uid) {
         jdbi.inTransaction(
                 handle ->
                         handle
                                 .createUpdate(create().locate("queries/account/add_account"))
+                                .bind("firebase_uid", uid)
                                 .bind("email", newAccount.getEmail())
                                 .bind("password", newAccount.getPassword())
                                 .bind("role", newAccount.getRole().name())
