@@ -89,19 +89,13 @@ public class Api {
                     path(
                             "/teacher",
                             () -> {
-                                before(
-                                        (request, response) -> {
-                                            if (!isAdmin(request, response)) {
-                                                halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
-                                            }
-                                        });
                                 get("", teacherApi::getTeachers, gson::toJson);
                                 post("", Api::createTeacher, gson::toJson);
                                 put("", teacherApi::updateTeacher, gson::toJson);
                                 delete("", Api::deleteTeacher, gson::toJson);
 
                                 path(
-                                        "/teacher/ping",
+                                        "/ping",
                                         () ->
                                             get("", (request, response) -> "pong")
                                         );
@@ -109,12 +103,6 @@ public class Api {
                     path(
                             "/profile",
                             () -> {
-                                before(
-                                        (request, response) -> {
-                                            if (!isAdmin(request, response)) {
-                                                halt(HttpURLConnection.HTTP_UNAUTHORIZED, "");
-                                            }
-                                        });
                                 get("", profileApi::getProfiles, gson::toJson);
                                 post("", profileApi::addProfile, gson::toJson);
                                 put("", profileApi::updateProfile, gson::toJson);
