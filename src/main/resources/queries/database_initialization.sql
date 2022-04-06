@@ -9,7 +9,7 @@ CREATE TABLE account
      id              SERIAL PRIMARY KEY,
      email           VARCHAR NOT NULL,
      password        VARCHAR NOT NULL,
-     role            VARCHAR NOT NULL.
+     role            VARCHAR NOT NULL,
      firebase_uid    VARCHAR NOT NULL
   );
 

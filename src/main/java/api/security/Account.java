@@ -1,49 +1,58 @@
 package api.security;
 
 public class Account {
-    private long id;
-    private String email;
-    private String password;
-    private AccountRole role;
-    private String firebaseUid;
+  private long id;
+  private String email;
+  private String password;
+  private AccountRole role;
+  private String firebaseUid;
 
-    public long getId() {
-        return id;
-    }
+  public Account() {}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public Account(String email, String password, AccountRole role, String firebaseUid) {
+    this.email = email;
+    this.password = password;
+    this.role = role;
+    this.firebaseUid = firebaseUid;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public AccountRole getRole() {
-        return role;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setRole(AccountRole role) {
-        this.role = role;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getFirebaseUid() {
-        return firebaseUid;
-    }
+  public AccountRole getRole() {
+    return role;
+  }
 
-    public void setFirebaseUid(String firebaseUid) {
-        this.firebaseUid = firebaseUid;
-    }
+  public void setRole(AccountRole role) {
+    this.role = role;
+  }
+
+  public String getFirebaseUid() {
+    return firebaseUid;
+  }
+
+  public void setFirebaseUid(String firebaseUid) {
+    this.firebaseUid = firebaseUid;
+  }
 }

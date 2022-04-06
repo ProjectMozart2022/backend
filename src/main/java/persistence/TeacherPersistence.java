@@ -3,8 +3,6 @@ package persistence;
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.List;
-
-import api.security.Account;
 import model.Teacher;
 
 public class TeacherPersistence extends Persistence {
@@ -26,7 +24,7 @@ public class TeacherPersistence extends Persistence {
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/add_teacher"))
-                    .bind("account_id", accountId)
+                .bind("account_id", accountId)
                 .bind("first_name", teacher.getFirstName())
                 .bind("last_name", teacher.getLastName())
                 .execute());
@@ -37,7 +35,7 @@ public class TeacherPersistence extends Persistence {
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/update_teacher"))
-                    .bind("id", teacher.getId())
+                .bind("id", teacher.getId())
                 .bind("first_name", teacher.getFirstName())
                 .bind("last_name", teacher.getLastName())
                 .execute());
@@ -54,11 +52,11 @@ public class TeacherPersistence extends Persistence {
 
   public Teacher getTeacher(long id) {
     return jdbi.inTransaction(
-            handle ->
-                    handle
-                            .createQuery(create().locate("queries/teacher/select_teacher"))
-                            .bind("id", id)
-                            .mapToBean(Teacher.class)
-                            .one());
+        handle ->
+            handle
+                .createQuery(create().locate("queries/teacher/select_teacher"))
+                .bind("id", id)
+                .mapToBean(Teacher.class)
+                .one());
   }
 }
