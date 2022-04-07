@@ -1,9 +1,10 @@
 package persistence;
 
-import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
-
 import api.security.Account;
+
 import java.util.List;
+
+import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 public class AccountPersistence extends Persistence {
   public AccountPersistence() {
@@ -52,12 +53,12 @@ public class AccountPersistence extends Persistence {
   public void addAccount(Account newAccount, String uid) {
     jdbi.inTransaction(
         handle ->
-            handle
-                .createUpdate(create().locate("queries/account/add_account"))
+                handle
+                        .createUpdate(create().locate("queries/account/add_account"))
+                        .bind("email", newAccount.getEmail())
+                        .bind("password", newAccount.getPassword())
+                        .bind("role", newAccount.getRole().name())
                 .bind("firebase_uid", uid)
-                .bind("email", newAccount.getEmail())
-                .bind("password", newAccount.getPassword())
-                .bind("role", newAccount.getRole().name())
                 .execute());
   }
 

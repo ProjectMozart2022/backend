@@ -1,14 +1,15 @@
 package api;
 
-import static java.net.HttpURLConnection.HTTP_OK;
-
 import api.security.Account;
 import com.google.gson.Gson;
-import java.util.List;
-import java.util.logging.Logger;
 import persistence.AccountPersistence;
 import spark.Request;
 import spark.Response;
+
+import java.util.List;
+import java.util.logging.Logger;
+
+import static java.net.HttpURLConnection.HTTP_OK;
 
 public class AccountApi {
   private static final Gson gson = new Gson();
@@ -21,6 +22,10 @@ public class AccountApi {
 
   public Account getAccountByUid(Request request, Response response) {
     return persistence.getAccountByFirebaseUid(request.queryParams("uid"));
+  }
+
+  public Account getAccountByUid(String uid) {
+    return persistence.getAccountByFirebaseUid(uid);
   }
 
   public Account getAccountByTeacherId(long id) {

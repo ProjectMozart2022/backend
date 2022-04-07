@@ -13,8 +13,8 @@ public class SecurityService {
     return null;
   }
 
-  public static String decodeAndGetEmail(Request request) throws FirebaseAuthException {
+  public static String decodeAndGetUid(Request request) throws FirebaseAuthException {
     String jwt = SecurityService.getBearerToken(request);
-    return FirebaseAuth.getInstance().verifyIdToken(jwt).getEmail();
+    return FirebaseAuth.getInstance().verifyIdToken(jwt).getUid();
   }
 }
