@@ -20,16 +20,6 @@ public class AccountPersistence extends Persistence {
                 .list());
   }
 
-  public Account getAccountById(long id) {
-    return jdbi.inTransaction(
-        handle ->
-            handle
-                .createQuery(create().locate("queries/account/select_account_by_id"))
-                .bind("id", id)
-                .mapToBean(Account.class)
-                .one());
-  }
-
   public Account getAccountByFirebaseUid(String uid) {
     return jdbi.inTransaction(
         handle ->
