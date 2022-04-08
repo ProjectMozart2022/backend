@@ -19,26 +19,26 @@ public class StudentPersistence extends Persistence {
                 .list());
   }
 
-  public void addStudent(Student createdStudent) {
+  public void addStudent(Student student) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/student/add_student"))
-                .bind("first_name", createdStudent.getFirstName())
-                .bind("last_name", createdStudent.getLastName())
-                .bind("class_number", createdStudent.getClassNumber())
+                .bind("first_name", student.getFirstName())
+                .bind("last_name", student.getLastName())
+                .bind("class_number", student.getClassNumber())
                 .execute());
   }
 
-  public void updateStudent(Student updatedStudent) {
+  public void updateStudent(Student student) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/student/update_student"))
-                .bind("id", updatedStudent.getId())
-                .bind("first_name", updatedStudent.getFirstName())
-                .bind("last_name", updatedStudent.getLastName())
-                .bind("class_number", updatedStudent.getClassNumber())
+                .bind("id", student.getId())
+                .bind("first_name", student.getFirstName())
+                .bind("last_name", student.getLastName())
+                .bind("class_number", student.getClassNumber())
                 .execute());
   }
 

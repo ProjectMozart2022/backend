@@ -19,32 +19,32 @@ public class ProfilePersistence extends Persistence {
                 .list());
   }
 
-  public void addProfile(Profile createdProfile) {
+  public void addProfile(Profile profile) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/profile/add_profile"))
-                .bind("name", createdProfile.getName())
-                .bind("lesson_length", createdProfile.getLessonLength())
+                .bind("name", profile.getName())
+                .bind("lesson_length", profile.getLessonLength())
                 .bind(
                     "class_range",
-                    createdProfile.getClassRange().stream().mapToInt(Integer::intValue).toArray())
-                .bind("is_itn", createdProfile.isItn())
+                    profile.getClassRange().stream().mapToInt(Integer::intValue).toArray())
+                .bind("is_itn", profile.isItn())
                 .execute());
   }
 
-  public void updateProfile(Profile requestedProfile) {
+  public void updateProfile(Profile profile) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/profile/update_profile"))
-                .bind("id", requestedProfile.getId())
-                .bind("name", requestedProfile.getName())
-                .bind("lesson_length", requestedProfile.getLessonLength())
+                .bind("id", profile.getId())
+                .bind("name", profile.getName())
+                .bind("lesson_length", profile.getLessonLength())
                 .bind(
                     "class_range",
-                    requestedProfile.getClassRange().stream().mapToInt(Integer::intValue).toArray())
-                .bind("is_itn", requestedProfile.isItn())
+                    profile.getClassRange().stream().mapToInt(Integer::intValue).toArray())
+                .bind("is_itn", profile.isItn())
                 .execute());
   }
 
