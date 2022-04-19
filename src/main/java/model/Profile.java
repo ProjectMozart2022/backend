@@ -37,6 +37,10 @@ public class Profile {
     return classRange;
   }
 
+  public int[] getClassRangeAsArray() {
+    return classRange.stream().mapToInt(Integer::intValue).toArray();
+  }
+
   public void setClassRange(List<Integer> classRange) {
     this.classRange = classRange;
   }

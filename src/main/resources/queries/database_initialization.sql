@@ -13,10 +13,11 @@ CREATE TABLE student
 
 CREATE TABLE teacher
   (
+     firebase_id     VARCHAR PRIMARY KEY,
      first_name      VARCHAR,
      last_name       VARCHAR,
-     password        VARCHAR,
-     firebase_uid    VARCHAR PRIMARY KEY
+     email           VARCHAR,
+     password        VARCHAR
   );
 
 CREATE TABLE profile
@@ -31,7 +32,7 @@ CREATE TABLE profile
 CREATE TABLE lesson
 (
     student_id      INTEGER,
-    teacher_id      INTEGER,
+    teacher_id      VARCHAR,
     profile_id      INTEGER,
     PRIMARY KEY (student_id, teacher_id, profile_id),
     CONSTRAINT fk_student
@@ -39,7 +40,7 @@ CREATE TABLE lesson
             REFERENCES student(id),
     CONSTRAINT fk_teacher
         FOREIGN KEY(teacher_id)
-            REFERENCES teacher(id),
+            REFERENCES teacher(firebase_id),
     CONSTRAINT fk_profile
         FOREIGN KEY(profile_id)
             REFERENCES profile(id)

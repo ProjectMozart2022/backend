@@ -24,7 +24,7 @@ public class TeacherApi {
   }
 
   public Teacher getTeacher(Request request, Response response) {
-    return persistence.getTeacher(Long.parseLong(request.queryParams("id")));
+    return persistence.getTeacher(request.queryParams("firebaseId"));
   }
 
   public String addTeacher(Request request, Response response) {
@@ -52,7 +52,12 @@ public class TeacherApi {
   }
 
   public String deleteTeacher(Request request, Response response) {
-    persistence.deleteTeacher(Long.parseLong(request.params().get("id")));
+    persistence.deleteTeacher(request.queryParams("firebaseId"));
+    try {
+      FirebaseAuth.getInstance().deleteUser(request.queryParams("firebaseId"));
+    } catch (FirebaseAuthException e) {
+      e.printStackTrace();
+    }
     return "Successfully deleted teacher";
   }
 }

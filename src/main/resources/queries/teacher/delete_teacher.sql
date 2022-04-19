@@ -1,2 +1,2 @@
 DELETE FROM teacher
-WHERE id=:id;
+WHERE firebase_id=:firebase_id;

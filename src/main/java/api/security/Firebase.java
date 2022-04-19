@@ -38,7 +38,7 @@ public class Firebase {
 
   private static void haltUnauthorized() {
     before(
-        "/api/management/*",
+        "/api/admin/*",
         (request, response) -> {
           if (isNotAdmin(request)) halt(HttpURLConnection.HTTP_UNAUTHORIZED);
         });
@@ -50,7 +50,7 @@ public class Firebase {
   }
 
   private static boolean isNotAdmin(Request request) throws FirebaseAuthException {
-    return !ConfigFactory.load().getString("security.adminId").equals(firebaseId(request));
+    return !ConfigFactory.load().getString("mozart.security.adminId").equals(firebaseId(request));
   }
 
   private static boolean isNotTeacher(Request request) throws FirebaseAuthException {
