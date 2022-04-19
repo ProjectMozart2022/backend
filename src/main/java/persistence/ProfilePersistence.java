@@ -26,9 +26,7 @@ public class ProfilePersistence extends Persistence {
                 .createUpdate(create().locate("queries/profile/add_profile"))
                 .bind("name", profile.getName())
                 .bind("lesson_length", profile.getLessonLength())
-                .bind(
-                    "class_range",
-                    profile.getClassRange().stream().mapToInt(Integer::intValue).toArray())
+                .bind("class_range", profile.getClassRangeAsArray())
                 .bind("is_itn", profile.isItn())
                 .execute());
   }
@@ -41,9 +39,7 @@ public class ProfilePersistence extends Persistence {
                 .bind("id", profile.getId())
                 .bind("name", profile.getName())
                 .bind("lesson_length", profile.getLessonLength())
-                .bind(
-                    "class_range",
-                    profile.getClassRange().stream().mapToInt(Integer::intValue).toArray())
+                .bind("class_range", profile.getClassRangeAsArray())
                 .bind("is_itn", profile.isItn())
                 .execute());
   }

@@ -19,14 +19,16 @@ public class TeacherPersistence extends Persistence {
                 .list());
   }
 
-  public void addTeacher(long accountId, Teacher teacher) {
+  public void addTeacher(Teacher teacher) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/add_teacher"))
-                .bind("account_id", accountId)
+                .bind("firebase_id", teacher.getFirebaseId())
                 .bind("first_name", teacher.getFirstName())
                 .bind("last_name", teacher.getLastName())
+                .bind("password", teacher.getPassword())
+                .bind("email", teacher.getEmail())
                 .execute());
   }
 
@@ -35,27 +37,29 @@ public class TeacherPersistence extends Persistence {
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/update_teacher"))
-                .bind("id", teacher.getId())
+                .bind("firebase_id", teacher.getFirebaseId())
                 .bind("first_name", teacher.getFirstName())
                 .bind("last_name", teacher.getLastName())
+                .bind("password", teacher.getPassword())
+                .bind("email", teacher.getEmail())
                 .execute());
   }
 
-  public void deleteTeacher(long id) {
+  public void deleteTeacher(String firebaseId) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/delete_teacher"))
-                .bind("id", id)
+                .bind("firebase_id", firebaseId)
                 .execute());
   }
 
-  public Teacher getTeacher(long id) {
+  public Teacher getTeacher(String firebaseId) {
     return jdbi.inTransaction(
         handle ->
             handle
                 .createQuery(create().locate("queries/teacher/select_teacher"))
-                .bind("id", id)
+                .bind("firebase_id", firebaseId)
                 .mapToBean(Teacher.class)
                 .one());
   }

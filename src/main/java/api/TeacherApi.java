@@ -1,11 +1,15 @@
 package api;
 
 import static java.net.HttpURLConnection.HTTP_OK;
+import static org.slf4j.LoggerFactory.getLogger;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
 import com.google.gson.Gson;
 import java.util.List;
-import java.util.logging.Logger;
 import model.Teacher;
+import org.slf4j.Logger;
 import persistence.TeacherPersistence;
 import spark.Request;
 import spark.Response;
@@ -13,19 +17,32 @@ import spark.Response;
 public class TeacherApi {
   private static final Gson gson = new Gson();
   private static final TeacherPersistence persistence = new TeacherPersistence();
-  private static final Logger log = Logger.getLogger(TeacherApi.class.getName());
+  private static final Logger log = getLogger(TeacherApi.class);
 
   public List<Teacher> getTeachers(Request request, Response response) {
     return persistence.getTeachers();
   }
 
   public Teacher getTeacher(Request request, Response response) {
-    return persistence.getTeacher(Long.parseLong(request.queryParams("id")));
+    return persistence.getTeacher(request.queryParams("firebaseId"));
   }
 
-  public void addTeacher(long accountId, Teacher teacher) {
-    persistence.addTeacher(accountId, teacher);
-    log.info("Successfully created teacher");
+  public String addTeacher(Request request, Response response) {
+    Teacher teacher = gson.fromJson(request.body(), Teacher.class);
+    UserRecord.CreateRequest firebaseRequest =
+        new UserRecord.CreateRequest()
+            .setEmail(teacher.getEmail())
+            .setEmailVerified(false)
+            .setPassword(teacher.getPassword())
+            .setDisabled(false);
+    try {
+      teacher.setFirebaseId(FirebaseAuth.getInstance().createUser(firebaseRequest).getUid());
+      persistence.addTeacher(teacher);
+      return "Successfully created teacher";
+    } catch (FirebaseAuthException e) {
+      log.error("firebase exception", e);
+      return "error in creating teacher";
+    }
   }
 
   public String updateTeacher(Request request, Response response) {
@@ -34,8 +51,13 @@ public class TeacherApi {
     return "Successfully updated teacher";
   }
 
-  public void deleteTeacherById(long id) {
-    persistence.deleteTeacher(id);
-    log.info("Successfully deleted teacher");
+  public String deleteTeacher(Request request, Response response) {
+    persistence.deleteTeacher(request.queryParams("firebaseId"));
+    try {
+      FirebaseAuth.getInstance().deleteUser(request.queryParams("firebaseId"));
+    } catch (FirebaseAuthException e) {
+      e.printStackTrace();
+    }
+    return "Successfully deleted teacher";
   }
 }
