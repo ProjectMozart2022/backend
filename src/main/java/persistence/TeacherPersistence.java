@@ -19,12 +19,12 @@ public class TeacherPersistence extends Persistence {
                 .list());
   }
 
-  public void addTeacher(long accountId, Teacher teacher) {
+  public void addTeacher(Teacher teacher) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/teacher/add_teacher"))
-                .bind("account_id", accountId)
+                .bind("account_id", teacher.getFirebaseId())
                 .bind("first_name", teacher.getFirstName())
                 .bind("last_name", teacher.getLastName())
                 .execute());

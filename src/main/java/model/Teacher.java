@@ -1,25 +1,16 @@
 package model;
 
+import java.util.List;
+
 public class Teacher {
-  private long id;
+  private String firebaseId;
   private String firstName;
   private String lastName;
+  private String email;
+  private String password;
 
-  public Teacher() {
-  }
-
-  public Teacher(String firstName, String lastName) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
+  private List<Profile> availableProfiles;
+  private List<Lesson> lessons;
 
   public String getFirstName() {
     return firstName;
@@ -35,5 +26,45 @@ public class Teacher {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public List<Profile> getAvailableProfiles() {
+    return availableProfiles;
+  }
+
+  public void setAvailableProfiles(List<Profile> availableProfiles) {
+    this.availableProfiles = availableProfiles;
+  }
+
+  public List<Lesson> getLessons() {
+    return lessons;
+  }
+
+  public void setLessons(List<Lesson> lessons) {
+    this.lessons = lessons;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getFirebaseId() {
+    return firebaseId;
+  }
+
+  public void setFirebaseId(String firebaseId) {
+    this.firebaseId = firebaseId;
   }
 }
