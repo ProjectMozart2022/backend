@@ -9,6 +9,15 @@ public class Student {
   private int classNumber;
   private List<Lesson> lessons;
 
+  public Student() {}
+
+  public Student(long id, String firstName, String lastName, int classNumber) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.classNumber = classNumber;
+  }
+
   public long getId() {
     return id;
   }

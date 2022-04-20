@@ -1,16 +1,24 @@
 package model;
 
 public class Lesson {
-  private Profile profile;
   private Student student;
   private Teacher teacher;
+  private Subject subject;
 
-  public Profile getProfile() {
-    return profile;
+  public Lesson() {}
+
+  public Lesson(Student student, Teacher teacher, Subject subject) {
+    this.student = student;
+    this.teacher = teacher;
+    this.subject = subject;
   }
 
-  public void setProfile(Profile profile) {
-    this.profile = profile;
+  public Subject getProfile() {
+    return subject;
+  }
+
+  public void setProfile(Subject subject) {
+    this.subject = subject;
   }
 
   public Student getStudent() {

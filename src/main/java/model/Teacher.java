@@ -8,9 +8,18 @@ public class Teacher {
   private String lastName;
   private String email;
   private String password;
-
-  private List<Profile> availableProfiles;
   private List<Lesson> lessons;
+
+  public Teacher() {}
+
+  public Teacher(
+      String firebaseId, String firstName, String lastName, String email, String password) {
+    this.firebaseId = firebaseId;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
 
   public String getFirstName() {
     return firstName;
@@ -26,14 +35,6 @@ public class Teacher {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  public List<Profile> getAvailableProfiles() {
-    return availableProfiles;
-  }
-
-  public void setAvailableProfiles(List<Profile> availableProfiles) {
-    this.availableProfiles = availableProfiles;
   }
 
   public List<Lesson> getLessons() {

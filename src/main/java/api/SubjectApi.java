@@ -5,34 +5,34 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 import com.google.gson.Gson;
 import java.util.List;
-import model.Student;
-import persistence.StudentPersistence;
+import model.Subject;
+import persistence.SubjectPersistence;
 import spark.Request;
 import spark.Response;
 
-public class StudentApi {
+public class SubjectApi {
   private static final Gson gson = new Gson();
-  private static final StudentPersistence persistence = new StudentPersistence();
+  private static final SubjectPersistence persistence = new SubjectPersistence();
 
-  public List<Student> getAll(Request request, Response response) {
-    return persistence.getAll();
+  public List<Subject> getAll(Request request, Response response) {
+    return persistence.getSubjects();
   }
 
   public String add(Request request, Response response) {
-    persistence.add(gson.fromJson(request.body(), Student.class));
+    persistence.add(gson.fromJson(request.body(), Subject.class));
     response.status(HTTP_CREATED);
-    return "successfully created student";
+    return "Successfully created subject";
   }
 
   public String update(Request request, Response response) {
-    persistence.update(gson.fromJson(request.body(), Student.class));
+    persistence.update(gson.fromJson(request.body(), Subject.class));
     response.status(HTTP_OK);
-    return "Successfully updated student";
+    return "Successfully updated subject";
   }
 
   public String delete(Request request, Response response) {
     persistence.delete(Long.parseLong(request.queryParams("id")));
     response.status(HTTP_OK);
-    return "Successfully deleted student";
+    return "Successfully deleted subject";
   }
 }

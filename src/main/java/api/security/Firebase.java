@@ -65,7 +65,7 @@ public class Firebase {
 
   private static boolean isNotTeacher(Request request) throws FirebaseAuthException {
     return !new TeacherPersistence()
-        .getTeachers().stream()
+        .getAll().stream()
             .map(Teacher::getFirebaseId)
             .collect(Collectors.toList())
             .contains(firebaseId(request));

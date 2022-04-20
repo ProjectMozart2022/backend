@@ -2,12 +2,22 @@ package model;
 
 import java.util.List;
 
-public class Profile {
+public class Subject {
   private long id;
   private String name;
   private int lessonLength;
   private List<Integer> classRange;
   private boolean itn;
+
+  public Subject() {}
+
+  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn) {
+    this.id = id;
+    this.name = name;
+    this.lessonLength = lessonLength;
+    this.classRange = classRange;
+    this.itn = itn;
+  }
 
   public long getId() {
     return id;

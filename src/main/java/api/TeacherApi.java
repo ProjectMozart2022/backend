@@ -19,15 +19,15 @@ public class TeacherApi {
   private static final TeacherPersistence persistence = new TeacherPersistence();
   private static final Logger log = getLogger(TeacherApi.class);
 
-  public List<Teacher> getTeachers(Request request, Response response) {
-    return persistence.getTeachers();
+  public List<Teacher> getAll(Request request, Response response) {
+    return persistence.getAll();
   }
 
-  public Teacher getTeacher(Request request, Response response) {
-    return persistence.getTeacher(request.queryParams("firebaseId"));
+  public Teacher getOne(Request request, Response response) {
+    return persistence.getOne(request.queryParams("firebaseId"));
   }
 
-  public String addTeacher(Request request, Response response) {
+  public String add(Request request, Response response) {
     Teacher teacher = gson.fromJson(request.body(), Teacher.class);
     UserRecord.CreateRequest firebaseRequest =
         new UserRecord.CreateRequest()
@@ -37,7 +37,7 @@ public class TeacherApi {
             .setDisabled(false);
     try {
       teacher.setFirebaseId(FirebaseAuth.getInstance().createUser(firebaseRequest).getUid());
-      persistence.addTeacher(teacher);
+      persistence.add(teacher);
       return "Successfully created teacher";
     } catch (FirebaseAuthException e) {
       log.error("firebase exception", e);
@@ -45,14 +45,14 @@ public class TeacherApi {
     }
   }
 
-  public String updateTeacher(Request request, Response response) {
-    persistence.updateTeacher(gson.fromJson(request.body(), Teacher.class));
+  public String update(Request request, Response response) {
+    persistence.update(gson.fromJson(request.body(), Teacher.class));
     response.status(HTTP_OK);
     return "Successfully updated teacher";
   }
 
-  public String deleteTeacher(Request request, Response response) {
-    persistence.deleteTeacher(request.queryParams("firebaseId"));
+  public String delete(Request request, Response response) {
+    persistence.delete(request.queryParams("firebaseId"));
     try {
       FirebaseAuth.getInstance().deleteUser(request.queryParams("firebaseId"));
     } catch (FirebaseAuthException e) {

@@ -20,7 +20,7 @@ CREATE TABLE teacher
      password        VARCHAR
   );
 
-CREATE TABLE profile
+CREATE TABLE subject
   (
      id              SERIAL PRIMARY KEY,
      name            VARCHAR,
@@ -33,15 +33,15 @@ CREATE TABLE lesson
 (
     student_id      INTEGER,
     teacher_id      VARCHAR,
-    profile_id      INTEGER,
-    PRIMARY KEY (student_id, teacher_id, profile_id),
+    subject_id      INTEGER,
+    PRIMARY KEY (student_id, teacher_id, subject_id),
     CONSTRAINT fk_student
         FOREIGN KEY(student_id)
             REFERENCES student(id),
     CONSTRAINT fk_teacher
         FOREIGN KEY(teacher_id)
             REFERENCES teacher(firebase_id),
-    CONSTRAINT fk_profile
-        FOREIGN KEY(profile_id)
-            REFERENCES profile(id)
+    CONSTRAINT fk_subject
+        FOREIGN KEY(subject_id)
+            REFERENCES subject(id)
 );
