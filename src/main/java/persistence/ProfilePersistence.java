@@ -31,6 +31,10 @@ public class ProfilePersistence extends Persistence {
                 .execute());
   }
 
+  //  public List<Profile> getStudentsUnfilledProfiles(Student student) {
+  //
+  //  }
+
   public void updateProfile(Profile profile) {
     jdbi.inTransaction(
         handle ->
