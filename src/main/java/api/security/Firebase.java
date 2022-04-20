@@ -40,14 +40,22 @@ public class Firebase {
     before(
         "/api/admin/*",
         (request, response) -> {
-          if (!request.requestMethod().equals("OPTIONS") && isNotAdmin(request))
+          try {
+            if (!request.requestMethod().equals("OPTIONS") && isNotAdmin(request))
+              halt(HttpURLConnection.HTTP_UNAUTHORIZED);
+          } catch (Exception e) {
             halt(HttpURLConnection.HTTP_UNAUTHORIZED);
+          }
         });
     before(
         "/api/teacher/*",
         (request, response) -> {
-          if (!request.requestMethod().equals("OPTIONS") && isNotTeacher(request))
+          try {
+            if (!request.requestMethod().equals("OPTIONS") && isNotTeacher(request))
+              halt(HttpURLConnection.HTTP_UNAUTHORIZED);
+          } catch (Exception e) {
             halt(HttpURLConnection.HTTP_UNAUTHORIZED);
+          }
         });
   }
 
