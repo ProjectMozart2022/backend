@@ -10,7 +10,7 @@ import com.typesafe.config.ConfigFactory;
 
 public class Api {
   private static final Gson gson = new Gson();
-  private static final SubjectApi SUBJECT_API = new SubjectApi();
+  private static final SubjectApi subjectApi = new SubjectApi();
   private static final TeacherApi teacherApi = new TeacherApi();
   private static final StudentApi studentApi = new StudentApi();
 
@@ -49,10 +49,10 @@ public class Api {
                 path(
                     "/subject",
                     () -> {
-                      get("", SUBJECT_API::getAll, gson::toJson);
-                      post("", SUBJECT_API::add, gson::toJson);
-                      put("", SUBJECT_API::update, gson::toJson);
-                      delete("", SUBJECT_API::delete, gson::toJson);
+                      get("", subjectApi::getAll, gson::toJson);
+                      post("", subjectApi::add, gson::toJson);
+                      put("", subjectApi::update, gson::toJson);
+                      delete("", subjectApi::delete, gson::toJson);
                     });
               });
           path(
