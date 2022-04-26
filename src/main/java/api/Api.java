@@ -1,12 +1,12 @@
 package api;
 
-import static spark.Spark.*;
-
 import api.security.Cors;
 import api.security.Firebase;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
+import static spark.Spark.*;
 
 public class Api {
   private static final Gson gson = new Gson();
@@ -46,18 +46,18 @@ public class Api {
                       put("", teacherApi::update, gson::toJson);
                       delete("", teacherApi::delete, gson::toJson);
                     });
-                path(
-                    "/subject",
-                    () -> {
-                      get("", subjectApi::getAll, gson::toJson);
-                      get("/byTeacher", subjectApi::getAllFilteredByTeacher, gson::toJson);
-                      get("/byStudent", subjectApi::getAllFilteredByStudent, gson::toJson);
-                      post("", subjectApi::add, gson::toJson);
-                      put("", subjectApi::update, gson::toJson);
-                      delete("", subjectApi::delete, gson::toJson);
-                    });
-                path("/lesson", () -> get("", lessonApi::add, gson::toJson));
-                path("/report", () -> get("", reportApi::getForAll, gson::toJson));
+                  path(
+                          "/subject",
+                          () -> {
+                              get("", subjectApi::getAll, gson::toJson);
+                              get("/byTeacher", subjectApi::getAllFilteredByTeacher, gson::toJson);
+                              get("/byStudent", subjectApi::getAllFilteredByStudent, gson::toJson);
+                              post("", subjectApi::add, gson::toJson);
+                              put("", subjectApi::update, gson::toJson);
+                              delete("", subjectApi::delete, gson::toJson);
+                          });
+                  path("/lesson", () -> post("", lessonApi::add, gson::toJson));
+                  path("/report", () -> get("", reportApi::getForAll, gson::toJson));
               });
           path(
               "/teacher",
