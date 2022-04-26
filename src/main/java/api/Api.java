@@ -3,6 +3,7 @@ package api;
 import static spark.Spark.*;
 
 import api.security.Cors;
+import api.security.Firebase;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -18,7 +19,7 @@ public class Api {
   public static void main(String[] args) {
     Config config = ConfigFactory.load();
     port(config.getInt("mozart.api.port"));
-    //    Firebase.enable(config.getString("mozart.security.serviceAccountKey"));
+    Firebase.enable(config.getString("mozart.security.serviceAccountKey"));
     Cors.enable();
 
     path(
@@ -31,6 +32,7 @@ public class Api {
                     "/student",
                     () -> {
                       get("", studentApi::getAll, gson::toJson);
+                      get("/byTeacher", studentApi::getAllFilteredByTeacher, gson::toJson);
                       post("", studentApi::add, gson::toJson);
                       put("", studentApi::update, gson::toJson);
                       delete("", studentApi::delete, gson::toJson);
@@ -39,6 +41,7 @@ public class Api {
                     "/teacher",
                     () -> {
                       get("", teacherApi::getAll, gson::toJson);
+                      get("/byStudent", teacherApi::getAllFilteredByStudent, gson::toJson);
                       post("", teacherApi::add, gson::toJson);
                       put("", teacherApi::update, gson::toJson);
                       delete("", teacherApi::delete, gson::toJson);
@@ -47,6 +50,8 @@ public class Api {
                     "/subject",
                     () -> {
                       get("", subjectApi::getAll, gson::toJson);
+                      get("/byTeacher", subjectApi::getAllFilteredByTeacher, gson::toJson);
+                      get("/byStudent", subjectApi::getAllFilteredByStudent, gson::toJson);
                       post("", subjectApi::add, gson::toJson);
                       put("", subjectApi::update, gson::toJson);
                       delete("", subjectApi::delete, gson::toJson);
@@ -57,7 +62,7 @@ public class Api {
           path(
               "/teacher",
               () -> {
-                path("/report", () -> get("", teacherApi::getOne, gson::toJson));
+                path("/report", () -> get("", reportApi::getForOne, gson::toJson));
               });
         });
   }

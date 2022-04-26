@@ -28,10 +28,6 @@ public class TeacherApi {
     return persistence.getAll();
   }
 
-  public Teacher getOne(Request request, Response response) {
-    return persistence.getOne(request.queryParams("firebaseId"));
-  }
-
   public String add(Request request, Response response) {
     Teacher teacher = gson.fromJson(request.body(), Teacher.class);
     UserRecord.CreateRequest firebaseRequest =

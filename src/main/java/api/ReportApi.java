@@ -14,4 +14,8 @@ public class ReportApi {
     return new SummaryReport(
         teacherPersistence.getAll().stream().map(Teacher::report).collect(Collectors.toList()));
   }
+
+  public Teacher getForOne(Request request, Response response) {
+    return teacherPersistence.getOne(request.queryParams("firebaseId"));
+  }
 }
