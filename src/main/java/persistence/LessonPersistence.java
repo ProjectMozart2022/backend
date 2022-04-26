@@ -10,7 +10,7 @@ import model.Subject;
 import model.Teacher;
 
 public class LessonPersistence extends Persistence {
-  public void add(int studentId, String teacherId, int profileId) {
+  public void add(long studentId, String teacherId, long profileId) {
     jdbi.inTransaction(
         handle ->
             handle

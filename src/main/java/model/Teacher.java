@@ -1,6 +1,8 @@
 package model;
 
 import java.util.List;
+import java.util.stream.IntStream;
+import model.report.TeacherReport;
 
 public class Teacher {
   private String firebaseId;
@@ -19,6 +21,16 @@ public class Teacher {
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+  }
+
+  public TeacherReport report() {
+    return new TeacherReport(
+        firebaseId,
+        firstName,
+        lastName,
+        lessons.stream()
+            .flatMapToInt(lesson -> IntStream.of(lesson.getProfile().getLessonLength()))
+            .sum());
   }
 
   public String getFirstName() {

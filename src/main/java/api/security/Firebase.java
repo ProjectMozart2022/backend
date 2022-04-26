@@ -71,7 +71,7 @@ public class Firebase {
             .contains(firebaseId(request));
   }
 
-  private static String firebaseId(Request request) throws FirebaseAuthException {
+  public static String firebaseId(Request request) throws FirebaseAuthException {
     return FirebaseAuth.getInstance()
         .verifyIdToken(request.headers("Authorization").substring(7))
         .getUid();

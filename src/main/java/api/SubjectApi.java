@@ -15,7 +15,17 @@ public class SubjectApi {
   private static final SubjectPersistence persistence = new SubjectPersistence();
 
   public List<Subject> getAll(Request request, Response response) {
-    return persistence.getSubjects();
+    return persistence.getAll();
+  }
+
+  public List<Subject> getAllFilteredByTeacher(Request request, Response response) {
+    String teacherId = request.queryParams("teacherId");
+    return persistence.getAll();
+  }
+
+  public List<Subject> getAllFilteredByStudent(Request request, Response response) {
+    String studentId = request.queryParams("studentId");
+    return persistence.getAll();
   }
 
   public String add(Request request, Response response) {

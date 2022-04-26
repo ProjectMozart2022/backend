@@ -23,6 +23,11 @@ public class TeacherApi {
     return persistence.getAll();
   }
 
+  public List<Teacher> getAllFilteredByStudent(Request request, Response response) {
+    String studentId = request.queryParams("studentId");
+    return persistence.getAll();
+  }
+
   public Teacher getOne(Request request, Response response) {
     return persistence.getOne(request.queryParams("firebaseId"));
   }

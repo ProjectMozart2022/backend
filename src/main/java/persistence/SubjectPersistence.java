@@ -10,7 +10,7 @@ public class SubjectPersistence extends Persistence {
     super();
   }
 
-  public List<Subject> getSubjects() {
+  public List<Subject> getAll() {
     return jdbi.inTransaction(
         handle ->
             handle

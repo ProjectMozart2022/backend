@@ -18,6 +18,11 @@ public class StudentApi {
     return persistence.getAll();
   }
 
+  public List<Student> getAllFilteredByTeacher(Request request, Response response) {
+    String teacherId = request.queryParams("teacherId");
+    return persistence.getAll();
+  }
+
   public String add(Request request, Response response) {
     persistence.add(gson.fromJson(request.body(), Student.class));
     response.status(HTTP_CREATED);
