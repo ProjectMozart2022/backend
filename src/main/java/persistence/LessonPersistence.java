@@ -10,14 +10,14 @@ import model.Subject;
 import model.Teacher;
 
 public class LessonPersistence extends Persistence {
-  public void add(long studentId, String teacherId, long profileId) {
+  public void add(long studentId, String teacherId, long subjectId) {
     jdbi.inTransaction(
         handle ->
             handle
                 .createUpdate(create().locate("queries/lesson/add"))
                 .bind("student_id", studentId)
                 .bind("teacher_id", teacherId)
-                .bind("profile_id", profileId)
+                .bind("subject_id", subjectId)
                 .execute());
   }
 
