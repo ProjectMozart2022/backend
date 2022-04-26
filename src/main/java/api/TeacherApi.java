@@ -32,6 +32,7 @@ public class TeacherApi {
     Teacher teacher = gson.fromJson(request.body(), Teacher.class);
     UserRecord.CreateRequest firebaseRequest =
         new UserRecord.CreateRequest()
+            .setDisplayName(teacher.getFirstName() + " " + teacher.getLastName())
             .setEmail(teacher.getEmail())
             .setEmailVerified(false)
             .setPassword(teacher.getPassword())

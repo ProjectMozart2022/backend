@@ -54,7 +54,7 @@ public class LessonPersistence extends Persistence {
     return jdbi.inTransaction(
         handle ->
             handle
-                .createQuery(create().locate("queries/teacher/select_by_teacher_id"))
+                .createQuery(create().locate("queries/lesson/select_by_teacher_id"))
                 .bind("teacher_id", teacherId)
                 .map(
                     (rs, ctx) ->
