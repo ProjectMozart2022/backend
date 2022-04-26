@@ -1,5 +1,7 @@
 package api;
 
+import api.security.Firebase;
+import com.google.firebase.auth.FirebaseAuthException;
 import java.util.stream.Collectors;
 import model.Teacher;
 import model.report.SummaryReport;
@@ -16,6 +18,11 @@ public class ReportApi {
   }
 
   public Teacher getForOne(Request request, Response response) {
-    return teacherPersistence.getOne(request.queryParams("firebaseId"));
+    try {
+      return teacherPersistence.getOne(Firebase.firebaseId(request));
+    } catch (FirebaseAuthException e) {
+      response.status(401);
+      return null;
+    }
   }
 }
