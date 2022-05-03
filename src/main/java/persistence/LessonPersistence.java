@@ -31,22 +31,23 @@ public class LessonPersistence extends Persistence {
                     (rs, ctx) ->
                         new Lesson(
                             new Student(
-                                rs.getInt("s.id"),
-                                rs.getString("s.first_name"),
-                                rs.getString("s.last_name"),
-                                rs.getInt("s.class_number")),
+                                rs.getInt("student_id"),
+                                rs.getString("student_first_name"),
+                                rs.getString("student_last_name"),
+                                rs.getInt("student_class_number")),
                             new Teacher(
-                                rs.getString("t.firebase_id"),
-                                rs.getString("t.first_name"),
-                                rs.getString("t.last_name"),
-                                rs.getString("t.email"),
-                                rs.getString("t.password")),
+                                rs.getString("teacher_id"),
+                                rs.getString("teacher_first_name"),
+                                rs.getString("teacher_last_name"),
+                                rs.getString("teacher_email"),
+                                rs.getString("teacher_password")),
                             new Subject(
-                                rs.getInt("p.id"),
-                                rs.getString("p.name"),
-                                rs.getInt("p.lesson_length"),
-                                Arrays.asList(rs.getObject("p.class_range", Integer[].class)),
-                                rs.getBoolean("p.is_itn"))))
+                                rs.getInt("subject_id"),
+                                rs.getString("subject_name"),
+                                rs.getInt("subject_lesson_length"),
+                                Arrays.asList(
+                                    (Integer[]) rs.getArray("subject_class_range").getArray()),
+                                rs.getBoolean("subject_is_itn"))))
                 .list());
   }
 
@@ -60,22 +61,23 @@ public class LessonPersistence extends Persistence {
                     (rs, ctx) ->
                         new Lesson(
                             new Student(
-                                rs.getInt("s.id"),
-                                rs.getString("s.first_name"),
-                                rs.getString("s.last_name"),
-                                rs.getInt("s.class_number")),
+                                rs.getInt("student_id"),
+                                rs.getString("student_first_name"),
+                                rs.getString("student_last_name"),
+                                rs.getInt("student_class_number")),
                             new Teacher(
-                                rs.getString("t.firebase_id"),
-                                rs.getString("t.first_name"),
-                                rs.getString("t.last_name"),
-                                rs.getString("t.email"),
-                                rs.getString("t.password")),
+                                rs.getString("teacher_id"),
+                                rs.getString("teacher_first_name"),
+                                rs.getString("teacher_last_name"),
+                                rs.getString("teacher_email"),
+                                rs.getString("teacher_password")),
                             new Subject(
-                                rs.getInt("p.id"),
-                                rs.getString("p.name"),
-                                rs.getInt("p.lesson_length"),
-                                Arrays.asList(rs.getObject("p.class_range", Integer[].class)),
-                                rs.getBoolean("p.is_itn"))))
+                                rs.getInt("subject_id"),
+                                rs.getString("subject_name"),
+                                rs.getInt("subject_lesson_length"),
+                                Arrays.asList(
+                                    (Integer[]) rs.getArray("subject_class_range").getArray()),
+                                rs.getBoolean("subject_is_itn"))))
                 .list());
   }
 }

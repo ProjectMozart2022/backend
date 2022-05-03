@@ -3,6 +3,7 @@ package api;
 import static spark.Spark.*;
 
 import api.security.Cors;
+import api.security.Firebase;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -18,7 +19,7 @@ public class Api {
   public static void main(String[] args) {
     Config config = ConfigFactory.load();
     port(config.getInt("mozart.api.port"));
-    //    Firebase.enable(config.getString("mozart.security.serviceAccountKey"));
+    Firebase.enable(config.getString("mozart.security.serviceAccountKey"));
     Cors.enable();
 
     path(
