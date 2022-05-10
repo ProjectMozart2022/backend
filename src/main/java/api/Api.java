@@ -57,6 +57,7 @@ public class Api {
                       delete("", subjectApi::delete, gson::toJson);
                     });
                 path("/lesson", () -> post("", lessonApi::add, gson::toJson));
+                path("/lesson/itn", () -> post("", lessonApi::addWithItn, gson::toJson));
                 path("/report", () -> get("", reportApi::getForAll, gson::toJson));
               });
           path(
