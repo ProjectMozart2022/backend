@@ -19,16 +19,17 @@ public class SubjectPersistence extends Persistence {
                 .list());
   }
 
-  public void add(Subject subject) {
-    jdbi.inTransaction(
+  public Long add(Subject subject) {
+    return jdbi.inTransaction(
         handle ->
             handle
-                .createUpdate(create().locate("queries/subject/add"))
+                .createQuery(create().locate("queries/subject/add"))
                 .bind("name", subject.getName())
                 .bind("lesson_length", subject.getLessonLength())
                 .bind("class_range", subject.getClassRangeAsArray())
                 .bind("is_itn", subject.isItn())
-                .execute());
+                .mapTo(Long.class)
+                .first());
   }
 
   public void update(Subject subject) {

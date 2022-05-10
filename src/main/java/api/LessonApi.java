@@ -21,11 +21,11 @@ public class LessonApi {
   }
 
   public String addWithItn(Request request, Response response) {
-    subjectPersistence.add(gson.fromJson(request.body(), Subject.class));
+    Long subjectId = subjectPersistence.add(gson.fromJson(request.body(), Subject.class));
     persistence.add(
         Long.parseLong(request.queryParams("studentId")),
         request.queryParams("teacherId"),
-        Long.parseLong(request.queryParams("subjectId")));
+        subjectId);
     return "lesson created";
   }
 }
