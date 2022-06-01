@@ -1,0 +1,1 @@
+SELECT id, name, lesson_length AS lessonLength, class_range AS classRange, is_itn AS itn FROM subject;
