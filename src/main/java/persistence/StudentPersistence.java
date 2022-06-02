@@ -4,7 +4,6 @@ import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.List;
 import model.Student;
-import org.jdbi.v3.core.Jdbi;
 
 public class StudentPersistence extends Persistence {
   private final LessonPersistence lessonPersistence = new LessonPersistence();
@@ -13,8 +12,8 @@ public class StudentPersistence extends Persistence {
     super();
   }
 
-  public StudentPersistence(Jdbi jdbi) {
-    super(jdbi);
+  public StudentPersistence(String jdbcUrl, String username, String password, int maximumPoolSize) {
+    super(jdbcUrl, username, password, maximumPoolSize);
   }
 
   public List<Student> getAll() {

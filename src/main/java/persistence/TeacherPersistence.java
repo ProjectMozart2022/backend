@@ -8,6 +8,10 @@ import model.Teacher;
 public class TeacherPersistence extends Persistence {
   private final LessonPersistence lessonPersistence = new LessonPersistence();
 
+  public TeacherPersistence(String jdbcUrl, String username, String password, int maximumPoolSize) {
+    super(jdbcUrl, username, password, maximumPoolSize);
+  }
+
   public TeacherPersistence() {
     super();
   }
