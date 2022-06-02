@@ -91,7 +91,6 @@ public class TestStudentPersistence {
         databaseContainer.stop();
     }
 
-
     @Test
     public void testGetOne() {
         Student student = studentPersistence.getOne(1);
