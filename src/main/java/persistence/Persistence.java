@@ -20,4 +20,8 @@ public abstract class Persistence {
     DataSource dataSource = new HikariDataSource(hikariConfig);
     jdbi = Jdbi.create(dataSource);
   }
+
+  Persistence(Jdbi jdbi) {
+    this.jdbi = jdbi;
+  }
 }

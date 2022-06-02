@@ -27,6 +27,7 @@
         <junit.version>5.8.2</junit.version>
         <surefire.version>3.0.0-M6</surefire.version>
         <jdbiTest.version>3.29.0</jdbiTest.version>
+        <testContainers.version>1.17.2</testContainers.version>
     </properties>
 
     <dependencies>
@@ -88,6 +89,20 @@
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>${firebase-admin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testContainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testContainers.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

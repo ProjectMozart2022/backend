@@ -4,12 +4,17 @@ import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.List;
 import model.Student;
+import org.jdbi.v3.core.Jdbi;
 
 public class StudentPersistence extends Persistence {
   private final LessonPersistence lessonPersistence = new LessonPersistence();
 
   public StudentPersistence() {
     super();
+  }
+
+  public StudentPersistence(Jdbi jdbi) {
+    super(jdbi);
   }
 
   public List<Student> getAll() {
