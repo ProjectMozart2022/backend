@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 import javax.sql.DataSource;
-import org.jdbi.v3.core.locator.ClasspathSqlLocator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class TestStudentPersistence {
@@ -93,8 +93,10 @@ public class TestStudentPersistence {
 
 
     @Test
-    public void testGetAll() {
-        System.out.println(jdbi);
-        System.out.println(studentPersistence.getAll());
+    public void testGetOne() {
+        Student student = studentPersistence.getOne(1);
+        assertEquals(student.getFirstName(), "Adam");
+        assertEquals(student.getLastName(), "kowalski");
+        assertEquals(student.getClassNumber(), 1);
     }
 }
