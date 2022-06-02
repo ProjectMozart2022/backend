@@ -14,6 +14,8 @@ import org.testcontainers.utility.DockerImageName;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static util.DatabaseOps.performQuery;
+
 public class TestStudentPersistence {
   private static PostgreSQLContainer databaseContainer;
   private static final HikariConfig config = new HikariConfig();
@@ -21,7 +23,7 @@ public class TestStudentPersistence {
   private static StudentPersistence studentPersistence = null;
 
   @BeforeAll
-  public void setUp() {
+  static void setUp() {
     databaseContainer.start();
     final String port = databaseContainer.getFirstMappedPort().toString();
     String url = "jdbc:postgresql://localhost:" + port + "/postgres";
@@ -36,11 +38,11 @@ public class TestStudentPersistence {
   @BeforeEach
   void initialize() throws Throwable {
     databaseContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:alpine3.14"));
-    postgres.start();
+    databaseContainer.start();
     String parentPath = Path.of(System.getProperty("user.dir")).getParent().toString();
     Path path = Path.of(parentPath + "/persistence/src/main/resources/database_creation.sql");
-    performQuery(postgres, Files.readString(path));
-    persistence = new PostgresPersistence(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword(), 1);
+    performQuery(databaseContainer, Files.readString(path));
+    studentPersistence = new StudentPersistence(databaseContainer.getJdbcUrl(), databaseContainer.getUsername(), databaseContainer.getPassword(), 1);
   }
 
 

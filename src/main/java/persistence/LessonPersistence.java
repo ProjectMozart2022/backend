@@ -15,6 +15,10 @@ public class LessonPersistence extends Persistence {
     super(jdbcUrl, username, password, maximumPoolSize);
   }
 
+  public LessonPersistence() {
+    super();
+  }
+
   public void add(long studentId, String teacherId, long subjectId) {
     jdbi.inTransaction(
         handle ->
