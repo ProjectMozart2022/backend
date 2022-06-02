@@ -65,10 +65,11 @@ public class Firebase {
 
   private static boolean isNotTeacher(Request request) throws FirebaseAuthException {
     return !new TeacherPersistence()
-        .getAll().stream()
-            .map(Teacher::getFirebaseId)
-            .collect(Collectors.toList())
-            .contains(firebaseId(request));
+        .getAll()
+        .stream()
+        .map(Teacher::getFirebaseId)
+        .collect(Collectors.toList())
+        .contains(firebaseId(request));
   }
 
   public static String firebaseId(Request request) throws FirebaseAuthException {
