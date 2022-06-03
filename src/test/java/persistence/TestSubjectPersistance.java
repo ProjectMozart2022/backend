@@ -1,9 +1,100 @@
 package persistence;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static util.DatabaseOps.performQuery;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import model.Subject;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 public class TestSubjectPersistance {
   private static final PostgreSQLContainer databaseContainer =
       new PostgreSQLContainer(DockerImageName.parse("postgres:alpine3.14"));
+  private SubjectPersistence subjectPersistence;
+  private final Subject subjectPiano = new Subject(1L, "Piano", 60, List.of(1, 6), false);
+  private final Subject subjectGuitar = new Subject(2L, "Guitar", 45, List.of(1, 6), false);
+
+  @BeforeAll
+  static void setUp() {
+    databaseContainer.start();
+  }
+
+  @BeforeEach
+  void initialize() throws Throwable {
+    databaseContainer.start();
+    String parentPath = Path.of(System.getProperty("user.dir")).getParent().toString();
+    Path path =
+        Path.of(parentPath + "/backend/src/main/resources/queries/database_initialization.sql");
+    performQuery(databaseContainer, Files.readString(path));
+    subjectPersistence =
+        new SubjectPersistence(
+            databaseContainer.getJdbcUrl(),
+            databaseContainer.getUsername(),
+            databaseContainer.getPassword(),
+            2);
+    subjectPersistence.add(subjectPiano);
+    subjectPersistence.add(subjectGuitar);
+  }
+
+  @AfterEach
+  public void tearDownEach() {
+    databaseContainer.stop();
+  }
+
+  @Test
+  public void testGetAll() {
+    List<Subject> subjects = subjectPersistence.getAll();
+    assertEquals(subjects.size(), 2);
+    assertEquals(subjects.get(0).getName(), "Piano");
+    assertEquals(subjects.get(0).getLessonLength(), 60);
+    assertEquals(subjects.get(0).getClassRange(), List.of(1, 6));
+    assertFalse(subjects.get(0).isItn());
+    assertEquals(subjects.get(1).getName(), "Guitar");
+    assertEquals(subjects.get(1).getLessonLength(), 45);
+    assertEquals(subjects.get(1).getClassRange(), List.of(1, 6));
+    assertFalse(subjects.get(1).isItn());
+  }
+
+  @Test
+  public void testAddNewSubject() {
+    List<Subject> subjects = subjectPersistence.getAll();
+    assertEquals(subjects.size(), 2);
+    Long newId = subjectPersistence.add(new Subject(3L, "Violin", 60, List.of(1, 6), false));
+    assertEquals(newId, 3L);
+    subjects = subjectPersistence.getAll();
+    assertEquals(subjects.get(2).getName(), "Violin");
+    assertEquals(subjects.get(2).getLessonLength(), 60);
+    assertEquals(subjects.get(2).getClassRange(), List.of(1, 6));
+    assertFalse(subjects.get(2).isItn());
+  }
+
+  @Test
+  public void testUpdateSubject() {
+    List<Subject> subjects = subjectPersistence.getAll();
+    assertEquals(subjects.size(), 2);
+    subjectGuitar.setItn(true);
+    subjectGuitar.setClassRange(List.of(1, 7));
+    subjectPersistence.update(subjectGuitar);
+    subjects = subjectPersistence.getAll();
+    assertEquals(subjects.get(1).getName(), "Guitar");
+    assertEquals(subjects.get(1).getLessonLength(), 45);
+    assertEquals(subjects.get(1).getClassRange(), List.of(1, 7));
+    assertTrue(subjects.get(1).isItn());
+  }
+
+  @Test
+  public void testDeleteSubject() {
+    List<Subject> subjects = subjectPersistence.getAll();
+    assertEquals(subjects.size(), 2);
+    subjectPersistence.delete(1L);
+    subjects = subjectPersistence.getAll();
+    assertEquals(subjects.size(), 1);
+  }
 }
