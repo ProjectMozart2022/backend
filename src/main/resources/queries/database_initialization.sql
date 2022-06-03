@@ -17,7 +17,8 @@ CREATE TABLE teacher
      first_name      VARCHAR,
      last_name       VARCHAR,
      email           VARCHAR,
-     password        VARCHAR
+     password        VARCHAR,
+     minimal_num_of_hours   INTEGER
   );
 
 CREATE TABLE subject

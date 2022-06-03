@@ -7,6 +7,7 @@ import model.Teacher;
 
 public class TeacherPersistence extends Persistence {
   private final LessonPersistence lessonPersistence = new LessonPersistence();
+  private final SubjectPersistence subjectPersistence = new SubjectPersistence();
 
   public TeacherPersistence() {
     super();
@@ -21,7 +22,10 @@ public class TeacherPersistence extends Persistence {
                     .mapToBean(Teacher.class)
                     .list());
     teachers.forEach(
-        teacher -> teacher.setLessons(lessonPersistence.getAllByTeacher(teacher.getFirebaseId())));
+        teacher -> {
+          teacher.setLessons(lessonPersistence.getAllByTeacher(teacher.getFirebaseId()));
+          teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher.getFirebaseId()));
+        });
     return teachers;
   }
 
@@ -35,6 +39,7 @@ public class TeacherPersistence extends Persistence {
                     .mapToBean(Teacher.class)
                     .one());
     teacher.setLessons(lessonPersistence.getAllByTeacher(teacher.getFirebaseId()));
+    teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher.getFirebaseId()));
     return teacher;
   }
 
@@ -48,6 +53,7 @@ public class TeacherPersistence extends Persistence {
                 .bind("last_name", teacher.getLastName())
                 .bind("password", teacher.getPassword())
                 .bind("email", teacher.getEmail())
+                .bind("minimal_num_of_hours", teacher.getMinimalNumOfHours())
                 .execute());
   }
 
@@ -61,6 +67,7 @@ public class TeacherPersistence extends Persistence {
                 .bind("last_name", teacher.getLastName())
                 .bind("password", teacher.getPassword())
                 .bind("email", teacher.getEmail())
+                .bind("minimal_num_of_hours", teacher.getMinimalNumOfHours())
                 .execute());
   }
 

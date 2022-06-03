@@ -1,5 +1,6 @@
 package api;
 
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -24,6 +25,8 @@ public class TeacherApi {
   }
 
   public List<Teacher> getAllFilteredByStudent(Request request, Response response) {
+    // wez wszystkie przedmioty ktore sa dostepne dla nauczyciela i wez wszystkich uczniow
+    // ktorzy moga sie uczyc tych przedmiotow i nie sa do nich przypisani
     String studentId = request.queryParams("studentId");
     return persistence.getAll();
   }
@@ -40,6 +43,7 @@ public class TeacherApi {
     try {
       teacher.setFirebaseId(FirebaseAuth.getInstance().createUser(firebaseRequest).getUid());
       persistence.add(teacher);
+      response.status(HTTP_CREATED);
       return "Successfully created teacher";
     } catch (FirebaseAuthException e) {
       log.error("firebase exception", e);

@@ -11,16 +11,20 @@ public class Teacher {
   private String email;
   private String password;
   private List<Lesson> lessons;
+  private int minimalNumOfHours;
+  private List<Subject> knownSubjects;
 
   public Teacher() {}
 
   public Teacher(
-      String firebaseId, String firstName, String lastName, String email, String password) {
+          String firebaseId, String firstName, String lastName, String email, String password, int minimalNumOfHours, List<Subject> knownSubjects) {
     this.firebaseId = firebaseId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.minimalNumOfHours = minimalNumOfHours;
+    this.knownSubjects = knownSubjects;
   }
 
   public TeacherReport report() {
@@ -79,5 +83,17 @@ public class Teacher {
 
   public void setFirebaseId(String firebaseId) {
     this.firebaseId = firebaseId;
+  }
+
+  public int getMinimalNumOfHours() { return this.minimalNumOfHours; }
+
+  public void setMinimalNumOfHours(int minimalNumOfHours) { this.minimalNumOfHours = minimalNumOfHours; }
+
+  public List<Subject> getKnownSubjects() {
+    return knownSubjects;
+  }
+
+  public void setKnownSubjects(List<Subject> knownSubjects) {
+    this.knownSubjects = knownSubjects;
   }
 }
