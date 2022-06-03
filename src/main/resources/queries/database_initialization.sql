@@ -26,7 +26,8 @@ CREATE TABLE subject
      name            VARCHAR,
      lesson_length   INTEGER,
      class_range     INTEGER [],
-     is_itn          bool
+     is_itn          bool,
+     is_mandatory    bool
   );
 
 CREATE TABLE lesson
@@ -53,7 +54,7 @@ CREATE TABLE known_subject
     PRIMARY KEY (teacher_id, subject_id),
     CONSTRAINT fk_teacher
         FOREIGN KEY(teacher_id)
-            REFERENCES teacher(id),
+            REFERENCES teacher(firebase_id),
     CONSTRAINT fk_subject
         FOREIGN KEY(subject_id)
             REFERENCES subject(id)

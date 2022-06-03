@@ -19,6 +19,14 @@ public class SubjectPersistence extends Persistence {
                 .list());
   }
 
+  public List<Subject> getAllByTeacher(String teacherId) {
+    return jdbi.inTransaction(
+            handle -> handle.createQuery(create().locate("queries/subject/select_by_teacher"))
+                    .bind("teacher_id", teacherId)
+                    .mapToBean(Subject.class)
+                    .list());
+  }
+
   public Long add(Subject subject) {
     return jdbi.inTransaction(
         handle ->
@@ -28,6 +36,7 @@ public class SubjectPersistence extends Persistence {
                 .bind("lesson_length", subject.getLessonLength())
                 .bind("class_range", subject.getClassRangeAsArray())
                 .bind("is_itn", subject.isItn())
+                .bind("is_mandatory", subject.isMandatory())
                 .mapTo(Long.class)
                 .first());
   }
@@ -42,6 +51,7 @@ public class SubjectPersistence extends Persistence {
                 .bind("lesson_length", subject.getLessonLength())
                 .bind("class_range", subject.getClassRangeAsArray())
                 .bind("is_itn", subject.isItn())
+                .bind("is_mandatory", subject.isMandatory())
                 .execute());
   }
 

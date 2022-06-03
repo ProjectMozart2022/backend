@@ -8,15 +8,17 @@ public class Subject {
   private int lessonLength;
   private List<Integer> classRange;
   private boolean itn;
+  private boolean mandatory;
 
   public Subject() {}
 
-  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn) {
+  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn, boolean mandatory) {
     this.id = id;
     this.name = name;
     this.lessonLength = lessonLength;
     this.classRange = classRange;
     this.itn = itn;
+    this.mandatory = mandatory;
   }
 
   public long getId() {
@@ -62,4 +64,6 @@ public class Subject {
   public void setItn(boolean itn) {
     this.itn = itn;
   }
+
+  public boolean isMandatory() { return mandatory;}
 }
