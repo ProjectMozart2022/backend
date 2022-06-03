@@ -11,7 +11,6 @@ import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-
 // TODO: test getOne because there is no select one query
 public class TestStudentPersistence {
   private static final PostgreSQLContainer databaseContainer =
