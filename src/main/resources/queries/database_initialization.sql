@@ -45,3 +45,16 @@ CREATE TABLE lesson
         FOREIGN KEY(subject_id)
             REFERENCES subject(id)
 );
+
+CREATE TABLE known_subject
+(
+    teacher_id      VARCHAR,
+    subject_id      INTEGER,
+    PRIMARY KEY (teacher_id, subject_id),
+    CONSTRAINT fk_teacher
+        FOREIGN KEY(teacher_id)
+            REFERENCES teacher(id),
+    CONSTRAINT fk_subject
+        FOREIGN KEY(subject_id)
+            REFERENCES subject(id)
+);
