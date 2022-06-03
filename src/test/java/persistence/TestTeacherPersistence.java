@@ -1,6 +1,6 @@
 package persistence;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static util.DatabaseOps.performQuery;
 
 import java.nio.file.Files;
@@ -62,5 +62,45 @@ public class TestTeacherPersistence {
     assertEquals(teachers.get(1).getLastName(), "Kowalski");
     assertEquals(teachers.get(1).getEmail(), "andrzej@sosnowa.pl");
     assertEquals(teachers.get(1).getPassword(), "razDwaCztery");
+  }
+
+  @Test
+  public void testGetOne() {
+    Teacher teacher = teacherPersistence.getOne("uuid");
+    assertEquals(teacher.getFirstName(), "Adam");
+    assertEquals(teacher.getLastName(), "Kowalski");
+    assertEquals(teacher.getEmail(), "adam@sosnowa.pl");
+  }
+
+  @Test
+  public void testAdd() {
+    Teacher teacher = new Teacher("janId", "Jan", "Kowalski", "jan@sosnowa.pl", "razDwaPięć");
+    teacherPersistence.add(teacher);
+    Teacher teacherFromDb = teacherPersistence.getOne("janId");
+    assertNotNull(teacherFromDb);
+    assertEquals(teacherFromDb.getFirstName(), teacher.getFirstName());
+    assertEquals(teacherFromDb.getLastName(), teacher.getLastName());
+    assertEquals(teacherFromDb.getEmail(), teacher.getEmail());
+    assertEquals(teacherFromDb.getPassword(), teacher.getPassword());
+  }
+
+  @Test
+  public void testUpdate() {
+    Teacher teacher = new Teacher("uuid", "John", "Nowak", "xd@sosnowa.pl", "xd123");
+    teacherPersistence.update(teacher);
+    Teacher teacherFromDb = teacherPersistence.getOne("uuid");
+    assertNotNull(teacherFromDb);
+    assertEquals(teacherFromDb.getFirebaseId(), teacher.getFirebaseId());
+    assertEquals(teacherFromDb.getFirstName(), teacher.getFirstName());
+    assertEquals(teacherFromDb.getLastName(), teacher.getLastName());
+    assertEquals(teacherFromDb.getEmail(), teacher.getEmail());
+    assertEquals(teacherFromDb.getPassword(), teacher.getPassword());
+  }
+
+  @Test
+  public void testDelete() {
+    teacherPersistence.delete("uuid");
+    List<Teacher> teachers = teacherPersistence.getAll();
+    assertEquals(teachers.size(), 1);
   }
 }
