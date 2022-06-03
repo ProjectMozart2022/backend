@@ -11,10 +11,14 @@ import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
+
+// TODO: test getOne because there is no select one query
 public class TestStudentPersistence {
   private static final PostgreSQLContainer databaseContainer =
       new PostgreSQLContainer(DockerImageName.parse("postgres:alpine3.14"));
   private StudentPersistence studentPersistence;
+  private final Student studentAdam = new Student(1, "Adam", "Kowalski", 1);
+  private final Student studentJohn = new Student(2, "John", "Doe", 1);
 
   @BeforeAll
   static void setUp() {
@@ -33,9 +37,9 @@ public class TestStudentPersistence {
             databaseContainer.getJdbcUrl(),
             databaseContainer.getUsername(),
             databaseContainer.getPassword(),
-            1);
-    studentPersistence.add(new Student(1L, "Adam", "Kowalski", 1));
-    studentPersistence.add(new Student(2L, "Adam", "Niewiadomski", 1));
+            2);
+    studentPersistence.add(studentAdam);
+    studentPersistence.add(studentJohn);
   }
 
   @AfterEach
@@ -50,8 +54,44 @@ public class TestStudentPersistence {
     assertEquals(students.get(0).getFirstName(), "Adam");
     assertEquals(students.get(0).getLastName(), "Kowalski");
     assertEquals(students.get(0).getClassNumber(), 1);
-    assertEquals(students.get(1).getFirstName(), "Adam");
-    assertEquals(students.get(1).getLastName(), "Niewiadomski");
+    assertEquals(students.get(1).getFirstName(), "John");
+    assertEquals(students.get(1).getLastName(), "Doe");
     assertEquals(students.get(1).getClassNumber(), 1);
+  }
+
+  @Test
+  public void testAddNewStudent() {
+    List<Student> students = studentPersistence.getAll();
+    assertEquals(students.size(), 2);
+    studentPersistence.add(new Student(3L, "Adam", "Nowak", 1));
+    students = studentPersistence.getAll();
+    assertEquals(students.size(), 3);
+    assertEquals(students.get(2).getFirstName(), "Adam");
+    assertEquals(students.get(2).getLastName(), "Nowak");
+    assertEquals(students.get(2).getClassNumber(), 1);
+  }
+
+  @Test
+  public void testUpdateStudent() {
+    List<Student> students = studentPersistence.getAll();
+    assertEquals(students.size(), 2);
+    studentPersistence.update(new Student(1, "Jędrzej", "Andrzejczak", 2));
+    List<Student> updatedStudents = studentPersistence.getAll();
+    assertEquals(updatedStudents.size(), 2);
+    assertEquals(updatedStudents.get(1).getFirstName(), "Jędrzej");
+    assertEquals(updatedStudents.get(1).getLastName(), "Andrzejczak");
+    assertEquals(updatedStudents.get(1).getClassNumber(), 2);
+  }
+
+  @Test
+  public void testDeleteStudent() {
+    List<Student> students = studentPersistence.getAll();
+    assertEquals(students.size(), 2);
+    studentPersistence.delete(1);
+    students = studentPersistence.getAll();
+    assertEquals(students.size(), 1);
+    assertEquals(students.get(0).getFirstName(), "John");
+    assertEquals(students.get(0).getLastName(), "Doe");
+    assertEquals(students.get(0).getClassNumber(), 1);
   }
 }
