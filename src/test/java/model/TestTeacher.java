@@ -11,52 +11,52 @@ public class TestTeacher {
       new Teacher("not", "Andrzej", "Kowalski", "tata@gmail.com", "xd");
 
   @Test
-  public void testGetFirstName() {
+  public void shouldGetFirstNameOfTeacher() {
     assertNull(emptyTeacher.getFirstName());
     assertEquals("Andrzej", nonEmptyTeacher.getFirstName());
   }
 
   @Test
-  public void testSetFirstName() {
+  public void shouldSetFirstNameOfTeacher() {
     assertNull(emptyTeacher.getFirstName());
     emptyTeacher.setFirstName("Andrzej");
     assertEquals("Andrzej", emptyTeacher.getFirstName());
   }
 
   @Test
-  public void testGetLastName() {
+  public void shouldGetLastNameOfTeacher() {
     assertNull(emptyTeacher.getLastName());
     assertEquals("Kowalski", nonEmptyTeacher.getLastName());
   }
 
   @Test
-  public void testSetLastName() {
+  public void shouldSetLastNameOfTeacher() {
     assertNull(emptyTeacher.getLastName());
     emptyTeacher.setLastName("Karwiski");
     assertEquals("Karwiski", emptyTeacher.getLastName());
   }
 
   @Test
-  public void testGetEmail() {
+  public void shouldGetEmailOfTeacher() {
     assertNull(emptyTeacher.getEmail());
     assertEquals("tata@gmail.com", nonEmptyTeacher.getEmail());
   }
 
   @Test
-  public void testSetEmail() {
+  public void shouldSetEmailOfTeacher() {
     assertNull(emptyTeacher.getEmail());
     emptyTeacher.setEmail("tata_2@gmail.com");
     assertEquals("tata_2@gmail.com", emptyTeacher.getEmail());
   }
 
   @Test
-  public void testGetFirebaseId() {
+  public void shouldGetFirebaseIdOfTeacher() {
     assertNull(emptyTeacher.getFirebaseId());
     assertEquals("not", nonEmptyTeacher.getFirebaseId());
   }
 
   @Test
-  public void testSetFirebaseId() {
+  public void shouldSetFirebaseIdOfTeacher() {
     assertNull(emptyTeacher.getFirebaseId());
     emptyTeacher.setFirebaseId("xd");
     assertEquals("xd", emptyTeacher.getFirebaseId());

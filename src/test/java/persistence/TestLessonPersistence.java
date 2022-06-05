@@ -77,13 +77,13 @@ public class TestLessonPersistence {
   }
 
   @Test
-  public void testGetAllByStudent() {
+  public void shouldGetAllSubjectsOfStudent() {
     List<Lesson> subjects = lessonPersistence.getAllByStudent(studentAdam.getId());
     assertEquals(2, subjects.size());
   }
 
   @Test
-  public void testGetAllByTeacher() {
+  public void shouldGetAllSubjectOfTeacher() {
     List<Lesson> subjects = lessonPersistence.getAllByTeacher(teacherAdam.getFirebaseId());
     assertEquals(1, subjects.size());
   }

@@ -13,61 +13,61 @@ public class TestStudent {
   private final Lesson emptyLesson = new Lesson();
 
   @Test
-  public void testGetStudentId() {
+  public void shouldGetIdOfStudent() {
     assertEquals(emptyStudent.getId(), 0);
     assertEquals(testStudent.getId(), 1L);
   }
 
   @Test
-  public void testGetFirstName() {
+  public void shouldGetFirstNameOfStudent() {
     assertNull(emptyStudent.getFirstName());
     assertEquals(testStudent.getFirstName(), "Henryk");
   }
 
   @Test
-  public void testGetLastName() {
+  public void shouldGetLastNameOfStudent() {
     assertNull(emptyStudent.getLastName());
     assertEquals(testStudent.getLastName(), "Sienkiewicz");
   }
 
   @Test
-  public void testGetClassNumber() {
+  public void shouldGetClassNumberOfStudent() {
     assertEquals(emptyStudent.getClassNumber(), 0);
     assertEquals(testStudent.getClassNumber(), 2);
   }
 
   @Test
-  public void testSetStudentId() {
+  public void shouldSetStudentId() {
     emptyStudent.setId(2L);
     assertEquals(emptyStudent.getId(), 2L);
   }
 
   @Test
-  public void testSetFirstName() {
+  public void shouldSetFirstName() {
     emptyStudent.setFirstName("Adam");
     assertEquals(emptyStudent.getFirstName(), "Adam");
   }
 
   @Test
-  public void testSetLastName() {
+  public void shouldSetLastName() {
     emptyStudent.setLastName("Mickiewicz");
     assertEquals(emptyStudent.getLastName(), "Mickiewicz");
   }
 
   @Test
-  public void testSetClassNumber() {
+  public void shouldSetClassNumberForStudent() {
     emptyStudent.setClassNumber(3);
     assertEquals(emptyStudent.getClassNumber(), 3);
   }
 
   @Test
-  public void testGetLesson() {
+  public void shouldGetLessonOfStudent() {
     List<Lesson> lessons = emptyStudent.getLessons();
     assertNull(lessons);
   }
 
   @Test
-  public void testSetLesson() {
+  public void shouldSetLessonOfStudent() {
     emptyStudent.setLessons(List.of(emptyLesson));
     List<Lesson> lessons = emptyStudent.getLessons();
     assertEquals(lessons.size(), 1);

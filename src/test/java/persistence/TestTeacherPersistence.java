@@ -45,7 +45,7 @@ public class TestTeacherPersistence {
   }
 
   @Test
-  public void testGetAll() {
+  public void shouldGetAllTeachers() {
     List<Teacher> teachers = teacherPersistence.getAll();
     assertEquals(teachers.size(), 2);
     assertEquals(teachers.get(0).getFirstName(), "Adam");
@@ -59,7 +59,7 @@ public class TestTeacherPersistence {
   }
 
   @Test
-  public void testGetOne() {
+  public void shouldGetTeacherWithGivenId() {
     Teacher teacher = teacherPersistence.getOne("uuid");
     assertEquals(teacher.getFirstName(), "Adam");
     assertEquals(teacher.getLastName(), "Kowalski");
@@ -67,7 +67,7 @@ public class TestTeacherPersistence {
   }
 
   @Test
-  public void testAdd() {
+  public void shouldAddNewTeacher() {
     Teacher teacher = new Teacher("janId", "Jan", "Kowalski", "jan@sosnowa.pl", "razDwaPięć");
     teacherPersistence.add(teacher);
     Teacher teacherFromDb = teacherPersistence.getOne("janId");
@@ -79,7 +79,7 @@ public class TestTeacherPersistence {
   }
 
   @Test
-  public void testUpdate() {
+  public void shouldUpdateTeacher() {
     Teacher teacher = new Teacher("uuid", "John", "Nowak", "xd@sosnowa.pl", "xd123");
     teacherPersistence.update(teacher);
     Teacher teacherFromDb = teacherPersistence.getOne("uuid");
@@ -92,7 +92,7 @@ public class TestTeacherPersistence {
   }
 
   @Test
-  public void testDelete() {
+  public void shouldDeleteTeacher() {
     teacherPersistence.delete("uuid");
     List<Teacher> teachers = teacherPersistence.getAll();
     assertEquals(teachers.size(), 1);

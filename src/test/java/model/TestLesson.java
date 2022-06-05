@@ -16,39 +16,39 @@ public class TestLesson {
       new Lesson(nonEmptyStudent, nonEmptyTeacher, nonEmptySubject);
 
   @Test
-  public void testGetProfile() {
+  public void shouldGetSubject() {
     assertNull(emptyLesson.getProfile());
     assertEquals(nonEmptyLesson.getProfile(), nonEmptySubject);
   }
 
   @Test
-  public void testSetProfile() {
+  public void shouldSetSubject() {
     assertNull(emptyLesson.getProfile());
     emptyLesson.setProfile(nonEmptySubject);
     assertEquals(emptyLesson.getProfile(), nonEmptySubject);
   }
 
   @Test
-  public void testGetTeacher() {
+  public void shouldGetTeacherFromSubject() {
     assertNull(emptyLesson.getTeacher());
     assertEquals(nonEmptyLesson.getTeacher(), nonEmptyTeacher);
   }
 
   @Test
-  public void testSetTeacher() {
+  public void shouldSetTeacherOfSubject() {
     assertNull(emptyLesson.getTeacher());
     emptyLesson.setTeacher(nonEmptyTeacher);
     assertEquals(emptyLesson.getTeacher(), nonEmptyTeacher);
   }
 
   @Test
-  public void testGetStudent() {
+  public void shouldHaveNotEmptyStudent() {
     assertNull(emptyLesson.getStudent());
     assertEquals(nonEmptyLesson.getStudent(), nonEmptyStudent);
   }
 
   @Test
-  public void testSetStudent() {
+  public void shouldSetStudent() {
     assertNull(emptyLesson.getStudent());
     emptyLesson.setStudent(nonEmptyStudent);
     assertEquals(emptyLesson.getStudent(), nonEmptyStudent);

@@ -42,7 +42,7 @@ public class TestSubjectPersistance {
   }
 
   @Test
-  public void testGetAll() {
+  public void shouldGetAllSubjects() {
     List<Subject> subjects = subjectPersistence.getAll();
     assertEquals(subjects.size(), 2);
     assertEquals(subjects.get(0).getName(), "Piano");
@@ -56,7 +56,7 @@ public class TestSubjectPersistance {
   }
 
   @Test
-  public void testAddNewSubject() {
+  public void shouldAddNewSubject() {
     List<Subject> subjects = subjectPersistence.getAll();
     assertEquals(subjects.size(), 2);
     Long newId = subjectPersistence.add(new Subject(3L, "Violin", 60, List.of(1, 6), false));
@@ -69,7 +69,7 @@ public class TestSubjectPersistance {
   }
 
   @Test
-  public void testUpdateSubject() {
+  public void shouldUpdateSubject() {
     List<Subject> subjects = subjectPersistence.getAll();
     assertEquals(subjects.size(), 2);
     subjectGuitar.setItn(true);
@@ -83,7 +83,7 @@ public class TestSubjectPersistance {
   }
 
   @Test
-  public void testDeleteSubject() {
+  public void shouldDeleteSubject() {
     List<Subject> subjects = subjectPersistence.getAll();
     assertEquals(subjects.size(), 2);
     subjectPersistence.delete(1L);

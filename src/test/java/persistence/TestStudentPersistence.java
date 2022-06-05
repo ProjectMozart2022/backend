@@ -42,7 +42,7 @@ public class TestStudentPersistence {
   }
 
   @Test
-  public void testGetAll() {
+  public void shouldGetAllStudentsInDb() {
     List<Student> students = studentPersistence.getAll();
     assertEquals(students.size(), 2);
     assertEquals(students.get(0).getFirstName(), "Adam");
@@ -54,7 +54,7 @@ public class TestStudentPersistence {
   }
 
   @Test
-  public void testAddNewStudent() {
+  public void shouldAddNewStudent() {
     List<Student> students = studentPersistence.getAll();
     assertEquals(students.size(), 2);
     studentPersistence.add(new Student(3L, "Adam", "Nowak", 1));
@@ -66,7 +66,7 @@ public class TestStudentPersistence {
   }
 
   @Test
-  public void testUpdateStudent() {
+  public void shouldUpdateStudent() {
     List<Student> students = studentPersistence.getAll();
     assertEquals(students.size(), 2);
     studentPersistence.update(new Student(1, "Jędrzej", "Andrzejczak", 2));
@@ -78,7 +78,7 @@ public class TestStudentPersistence {
   }
 
   @Test
-  public void testDeleteStudent() {
+  public void shouldDeleteStudent() {
     List<Student> students = studentPersistence.getAll();
     assertEquals(students.size(), 2);
     studentPersistence.delete(1);
