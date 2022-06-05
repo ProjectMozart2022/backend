@@ -9,16 +9,18 @@ public class Subject {
   private List<Integer> classRange;
   private boolean itn;
   private boolean mandatory;
+  private boolean instrumentRelated;
 
   public Subject() {}
 
-  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn, boolean mandatory) {
+  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn, boolean mandatory, boolean instrumentRelated) {
     this.id = id;
     this.name = name;
     this.lessonLength = lessonLength;
     this.classRange = classRange;
     this.itn = itn;
     this.mandatory = mandatory;
+    this.instrumentRelated = instrumentRelated;
   }
 
   public long getId() {
@@ -66,4 +68,16 @@ public class Subject {
   }
 
   public boolean isMandatory() { return mandatory;}
+
+  public void setMandatory(boolean mandatory) {
+    this.mandatory = mandatory;
+  }
+
+  public boolean isInstrumentRelated() {
+    return instrumentRelated;
+  }
+
+  public void setInstrumentRelated(boolean instrumentRelated) {
+    this.instrumentRelated = instrumentRelated;
+  }
 }

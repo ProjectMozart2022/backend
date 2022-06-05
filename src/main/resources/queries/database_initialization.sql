@@ -30,7 +30,8 @@ CREATE TABLE subject
      lesson_length   INTEGER,
      class_range     INTEGER [],
      is_itn          bool,
-     is_mandatory    bool
+     is_mandatory    bool,
+     is_instrument_related bool
   );
 
 CREATE TABLE lesson

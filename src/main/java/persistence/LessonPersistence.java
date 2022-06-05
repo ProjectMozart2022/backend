@@ -53,7 +53,8 @@ public class LessonPersistence extends Persistence {
                                 Arrays.asList(
                                     (Integer[]) rs.getArray("subject_class_range").getArray()),
                                 rs.getBoolean("subject_is_itn"),
-                                rs.getBoolean("subject_is_mandatory"))
+                                rs.getBoolean("subject_is_mandatory"),
+                                rs.getBoolean("subject_is_instrument_related"))
                           ))
                 .list());
   }
@@ -92,7 +93,8 @@ public class LessonPersistence extends Persistence {
                                 Arrays.asList(
                                     (Integer[]) rs.getArray("subject_class_range").getArray()),
                                 rs.getBoolean("subject_is_itn"),
-                                rs.getBoolean("subject_is_mandatory"))
+                                rs.getBoolean("subject_is_mandatory"),
+                                rs.getBoolean("subject_is_instrument_related"))
                         ))
                 .list());
   }

@@ -39,6 +39,7 @@ public class SubjectPersistence extends Persistence {
                 .bind("class_range", subject.getClassRangeAsArray())
                 .bind("is_itn", subject.isItn())
                 .bind("is_mandatory", subject.isMandatory())
+                .bind("is_instrument_related", subject.isInstrumentRelated())
                 .mapTo(Long.class)
                 .first());
   }
@@ -54,6 +55,7 @@ public class SubjectPersistence extends Persistence {
                 .bind("class_range", subject.getClassRangeAsArray())
                 .bind("is_itn", subject.isItn())
                 .bind("is_mandatory", subject.isMandatory())
+                .bind("is_instrument_related", subject.isInstrumentRelated())
                 .execute());
   }
 
