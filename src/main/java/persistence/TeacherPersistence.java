@@ -54,6 +54,7 @@ public class TeacherPersistence extends Persistence {
                 .bind("password", teacher.getPassword())
                 .bind("email", teacher.getEmail())
                 .bind("minimal_num_of_hours", teacher.getMinimalNumOfHours())
+                .bind("taught_instruments", teacher.getTaughtInstruments())
                 .execute());
   }
 
@@ -68,6 +69,7 @@ public class TeacherPersistence extends Persistence {
                 .bind("password", teacher.getPassword())
                 .bind("email", teacher.getEmail())
                 .bind("minimal_num_of_hours", teacher.getMinimalNumOfHours())
+                .bind("taught_instruments", teacher.getTaughtInstruments())
                 .execute());
   }
 
