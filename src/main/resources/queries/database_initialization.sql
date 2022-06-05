@@ -8,7 +8,8 @@ CREATE TABLE student
      id              SERIAL PRIMARY KEY,
      first_name      VARCHAR,
      last_name       VARCHAR,
-     class_number    INTEGER
+     class_number    INTEGER,
+     main_instrument      VARCHAR
   );
 
 CREATE TABLE teacher

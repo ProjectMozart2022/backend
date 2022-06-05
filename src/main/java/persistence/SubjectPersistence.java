@@ -21,7 +21,9 @@ public class SubjectPersistence extends Persistence {
 
   public List<Subject> getAllByTeacher(String teacherId) {
     return jdbi.inTransaction(
-            handle -> handle.createQuery(create().locate("queries/subject/select_by_teacher"))
+            handle ->
+                handle
+                    .createQuery(create().locate("queries/subject/select_by_teacher"))
                     .bind("teacher_id", teacherId)
                     .mapToBean(Subject.class)
                     .list());

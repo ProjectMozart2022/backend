@@ -41,6 +41,7 @@ public class LessonPersistence extends Persistence {
                                 rs.getString("teacher_email"),
                                 rs.getString("teacher_password"),
                                 rs.getInt("teacher_minimal_num_of_hours"),
+                                null
                                 //known subjects
                             ),
                             new Subject(
@@ -77,6 +78,7 @@ public class LessonPersistence extends Persistence {
                                 rs.getString("teacher_email"),
                                 rs.getString("teacher_password"),
                                 rs.getInt("teacher_minimal_num_of_hours"),
+                                null
                                 //known subjects
                             ),
                             new Subject(
