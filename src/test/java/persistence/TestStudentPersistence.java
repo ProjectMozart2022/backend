@@ -19,11 +19,6 @@ public class TestStudentPersistence {
   private final Student studentAdam = new Student(1, "Adam", "Kowalski", 1);
   private final Student studentJohn = new Student(2, "John", "Doe", 1);
 
-  @BeforeAll
-  static void setUp() {
-    databaseContainer.start();
-  }
-
   @BeforeEach
   void initialize() throws Throwable {
     databaseContainer.start();

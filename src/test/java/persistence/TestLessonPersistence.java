@@ -11,7 +11,6 @@ import model.Student;
 import model.Subject;
 import model.Teacher;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -29,11 +28,6 @@ public class TestLessonPersistence {
       new Teacher("uuid", "Adam", "Kowalski", "adam@sosnowa.pl", "razDwaTrzy");
   private final Teacher teacherAndrzej =
       new Teacher("id", "Andrzej", "Kowalski", "andrzej@sosnowa.pl", "razDwaCztery");
-
-  @BeforeAll
-  static void setUp() {
-    databaseContainer.start();
-  }
 
   @BeforeEach
   void initialize() throws Throwable {

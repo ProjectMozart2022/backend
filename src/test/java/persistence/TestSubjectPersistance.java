@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.List;
 import model.Subject;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -17,14 +16,14 @@ import org.testcontainers.utility.DockerImageName;
 public class TestSubjectPersistance {
   private static final PostgreSQLContainer databaseContainer =
       new PostgreSQLContainer(DockerImageName.parse("postgres:alpine3.14"));
-  private SubjectPersistence subjectPersistence;
+  private SubjectPersistence subjectPersistence =
+      new SubjectPersistence(
+          databaseContainer.getJdbcUrl(),
+          databaseContainer.getUsername(),
+          databaseContainer.getPassword(),
+          2);
   private final Subject subjectPiano = new Subject(1L, "Piano", 60, List.of(1, 6), false);
   private final Subject subjectGuitar = new Subject(2L, "Guitar", 45, List.of(1, 6), false);
-
-  @BeforeAll
-  static void setUp() {
-    databaseContainer.start();
-  }
 
   @BeforeEach
   void initialize() throws Throwable {
@@ -33,12 +32,6 @@ public class TestSubjectPersistance {
     Path path =
         Path.of(parentPath + "/backend/src/main/resources/queries/database_initialization.sql");
     performQuery(databaseContainer, Files.readString(path));
-    subjectPersistence =
-        new SubjectPersistence(
-            databaseContainer.getJdbcUrl(),
-            databaseContainer.getUsername(),
-            databaseContainer.getPassword(),
-            2);
     subjectPersistence.add(subjectPiano);
     subjectPersistence.add(subjectGuitar);
   }
