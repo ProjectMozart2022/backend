@@ -8,14 +8,16 @@ public class Student {
   private String lastName;
   private int classNumber;
   private List<Lesson> lessons;
+  private Instrument mainInstrument;
 
   public Student() {}
 
-  public Student(long id, String firstName, String lastName, int classNumber) {
+  public Student(long id, String firstName, String lastName, int classNumber, Instrument mainInstrument) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.classNumber = classNumber;
+    this.mainInstrument = mainInstrument;
   }
 
   public long getId() {
@@ -56,5 +58,13 @@ public class Student {
 
   public void setLessons(List<Lesson> lessons) {
     this.lessons = lessons;
+  }
+
+  public Instrument getMainInstrument() {
+    return mainInstrument;
+  }
+
+  public void setMainInstrument(Instrument mainInstrument) {
+    this.mainInstrument = mainInstrument;
   }
 }

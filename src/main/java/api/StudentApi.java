@@ -19,6 +19,8 @@ public class StudentApi {
   }
 
   public List<Student> getAllFilteredByTeacher(Request request, Response response) {
+    // wez wszystkie przedmioty ktore sa dostepne dla ucznia, obowiazkowe i nieprzypisane i wez wszystkich nauczycieli
+    // ktorzy moga uczyc tych przedmiotow
     String teacherId = request.queryParams("teacherId");
     return persistence.getAll();
   }
