@@ -1,8 +1,5 @@
 package api.security;
 
-import static org.slf4j.LoggerFactory.getLogger;
-import static spark.Spark.*;
-
 import api.TeacherApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -10,24 +7,29 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.typesafe.config.ConfigFactory;
-import java.io.ByteArrayInputStream;
-import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 import model.Teacher;
 import org.slf4j.Logger;
 import persistence.TeacherPersistence;
 import spark.Request;
 
-public class Firebase {
-  private static final Logger log = getLogger(TeacherApi.class);
+import java.io.ByteArrayInputStream;
+import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
-  public static void enable(String firebaseKey) {
-    try {
-      FirebaseApp.initializeApp(
-          FirebaseOptions.builder()
-              .setCredentials(
-                  GoogleCredentials.fromStream(
+import static org.slf4j.LoggerFactory.getLogger;
+import static spark.Spark.before;
+import static spark.Spark.halt;
+
+public class Firebase {
+    private static final Logger log = getLogger(TeacherApi.class);
+
+    public static void enable(String firebaseKey) {
+        try {
+            FirebaseApp.initializeApp(
+                    FirebaseOptions.builder()
+                            .setCredentials(
+                                    GoogleCredentials.fromStream(
                       new ByteArrayInputStream(firebaseKey.getBytes(StandardCharsets.UTF_8))))
               .build());
       haltUnauthorized();
@@ -64,11 +66,12 @@ public class Firebase {
   }
 
   private static boolean isNotTeacher(Request request) throws FirebaseAuthException {
-    return !new TeacherPersistence()
-        .getAll().stream()
-            .map(Teacher::getFirebaseId)
-            .collect(Collectors.toList())
-            .contains(firebaseId(request));
+      return !new TeacherPersistence()
+              .getAll()
+              .stream()
+              .map(Teacher::getFirebaseId)
+              .collect(Collectors.toList())
+              .contains(firebaseId(request));
   }
 
   public static String firebaseId(Request request) throws FirebaseAuthException {
