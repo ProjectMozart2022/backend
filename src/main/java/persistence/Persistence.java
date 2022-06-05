@@ -20,7 +20,7 @@ public abstract class Persistence {
     jdbi = Jdbi.create(dataSource);
   }
 
-  public Persistence() {
+  Persistence() {
     Config conf = ConfigFactory.load();
     HikariConfig hikariConfig = new HikariConfig();
     hikariConfig.setJdbcUrl(conf.getString("mozart.database.url"));

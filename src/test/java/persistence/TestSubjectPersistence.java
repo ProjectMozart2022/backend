@@ -13,15 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-public class TestSubjectPersistance {
+public class TestSubjectPersistence {
   private static final PostgreSQLContainer databaseContainer =
       new PostgreSQLContainer(DockerImageName.parse("postgres:alpine3.14"));
-  private SubjectPersistence subjectPersistence =
-      new SubjectPersistence(
-          databaseContainer.getJdbcUrl(),
-          databaseContainer.getUsername(),
-          databaseContainer.getPassword(),
-          2);
+  private SubjectPersistence subjectPersistence = null;
   private final Subject subjectPiano = new Subject(1L, "Piano", 60, List.of(1, 6), false);
   private final Subject subjectGuitar = new Subject(2L, "Guitar", 45, List.of(1, 6), false);
 
@@ -32,6 +27,12 @@ public class TestSubjectPersistance {
     Path path =
         Path.of(parentPath + "/backend/src/main/resources/queries/database_initialization.sql");
     performQuery(databaseContainer, Files.readString(path));
+    subjectPersistence =
+        new SubjectPersistence(
+            databaseContainer.getJdbcUrl(),
+            databaseContainer.getUsername(),
+            databaseContainer.getPassword(),
+            2);
     subjectPersistence.add(subjectPiano);
     subjectPersistence.add(subjectGuitar);
   }
