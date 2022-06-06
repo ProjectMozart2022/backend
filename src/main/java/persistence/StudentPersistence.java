@@ -6,14 +6,16 @@ import java.util.List;
 import model.Student;
 
 public class StudentPersistence extends Persistence {
-  private final LessonPersistence lessonPersistence = new LessonPersistence();
+  private final LessonPersistence lessonPersistence;
 
   public StudentPersistence() {
     super();
+    lessonPersistence = new LessonPersistence();
   }
 
   public StudentPersistence(String jdbcUrl, String username, String password, int maximumPoolSize) {
     super(jdbcUrl, username, password, maximumPoolSize);
+    lessonPersistence = new LessonPersistence(jdbcUrl, username, password, maximumPoolSize);
   }
 
   public List<Student> getAll() {
