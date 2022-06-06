@@ -29,8 +29,6 @@ public class TeacherApi {
   }
 
   public List<Teacher> getAllFilteredByStudent(Request request, Response response) {
-    // wez wszystkie przedmioty ktore sa dostepne dla nauczyciela i wez wszystkich uczniow
-    // ktorzy moga sie uczyc tych przedmiotow i nie sa do nich przypisani
     String studentId = request.queryParams("studentId");
     int subjectId = Integer.parseInt(request.queryParams("subjectId"));
     return teacherPersistence.getAllByStudentAndSubject(studentId, subjectId);
