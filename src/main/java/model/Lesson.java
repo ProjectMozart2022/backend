@@ -13,11 +13,11 @@ public class Lesson {
     this.subject = subject;
   }
 
-  public Subject getProfile() {
+  public Subject getSubject() {
     return subject;
   }
 
-  public void setProfile(Subject subject) {
+  public void setSubject(Subject subject) {
     this.subject = subject;
   }
 

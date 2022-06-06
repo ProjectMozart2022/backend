@@ -1,13 +1,17 @@
-package persistence;
+package teacherPersistence;
 
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.List;
+
+import model.Student;
+import model.Subject;
 import model.Teacher;
 
 public class TeacherPersistence extends Persistence {
   private final LessonPersistence lessonPersistence = new LessonPersistence();
   private final SubjectPersistence subjectPersistence = new SubjectPersistence();
+  private final StudentPersistence studentPersistance = new StudentPersistence();
 
   public TeacherPersistence() {
     super();
@@ -24,7 +28,7 @@ public class TeacherPersistence extends Persistence {
     teachers.forEach(
         teacher -> {
           teacher.setLessons(lessonPersistence.getAllByTeacher(teacher.getFirebaseId()));
-          teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher.getFirebaseId()));
+          teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher));
         });
     return teachers;
   }
@@ -39,8 +43,15 @@ public class TeacherPersistence extends Persistence {
                     .mapToBean(Teacher.class)
                     .one());
     teacher.setLessons(lessonPersistence.getAllByTeacher(teacher.getFirebaseId()));
-    teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher.getFirebaseId()));
+    teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher));
     return teacher;
+  }
+
+  public List<Teacher> getAllByStudentAndSubject(String studentId, int subjectId) {
+    List<Teacher> teachers = getAll();
+    Subject subject = subjectPersistence.getOne(subjectId);
+    Student student = studentPersistance.getOne(Integer.parseInt(studentId));
+    return teachers;
   }
 
   public void add(Teacher teacher) {

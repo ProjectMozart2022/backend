@@ -5,12 +5,16 @@ import com.google.firebase.auth.FirebaseAuthException;
 import java.util.stream.Collectors;
 import model.Teacher;
 import model.report.SummaryReport;
-import persistence.TeacherPersistence;
+import teacherPersistence.TeacherPersistence;
 import spark.Request;
 import spark.Response;
 
 public class ReportApi {
-  private static final TeacherPersistence teacherPersistence = new TeacherPersistence();
+  private final TeacherPersistence teacherPersistence;
+
+  public ReportApi(TeacherPersistence teacherPersistence) {
+    this.teacherPersistence = teacherPersistence;
+  }
 
   public SummaryReport getForAll(Request request, Response response) {
     return new SummaryReport(

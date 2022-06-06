@@ -1,4 +1,4 @@
-package persistence;
+package teacherPersistence;
 
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 

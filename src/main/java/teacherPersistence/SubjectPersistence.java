@@ -1,9 +1,14 @@
-package persistence;
+package teacherPersistence;
 
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import model.Lesson;
+import model.Student;
 import model.Subject;
+import model.Teacher;
 
 public class SubjectPersistence extends Persistence {
   public SubjectPersistence() {
@@ -19,14 +24,32 @@ public class SubjectPersistence extends Persistence {
                 .list());
   }
 
-  public List<Subject> getAllByTeacher(String teacherId) {
+  public Subject getOne(int subjectId) {
     return jdbi.inTransaction(
-            handle ->
-                handle
-                    .createQuery(create().locate("queries/subject/select_by_teacher"))
-                    .bind("teacher_id", teacherId)
-                    .mapToBean(Subject.class)
-                    .list());
+        handle ->
+            handle
+                .createQuery(create().locate("queries/subject/select_one"))
+                .bind("id", subjectId)
+                .mapToBean(Subject.class)
+                .one());
+  }
+
+  public List<Subject> getAllByTeacher(Teacher teacher) {
+    return getAll().stream()
+        .filter(subject -> teacher.getKnownSubjects().contains(subject))
+        .collect(Collectors.toList());
+  }
+
+  public List<Subject> getAllUnassignedByStudent(Student student) {
+    return getAll().stream()
+        .filter(
+            subject ->
+                subject.getClassRange().contains(student.getClassNumber())
+                    && !student.getLessons().stream()
+                        .map(Lesson::getSubject)
+                        .collect(Collectors.toList())
+                        .contains(subject))
+        .collect(Collectors.toList());
   }
 
   public Long add(Subject subject) {

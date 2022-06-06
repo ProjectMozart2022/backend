@@ -11,24 +11,29 @@ import com.google.gson.Gson;
 import java.util.List;
 import model.Teacher;
 import org.slf4j.Logger;
-import persistence.TeacherPersistence;
+import teacherPersistence.TeacherPersistence;
 import spark.Request;
 import spark.Response;
 
 public class TeacherApi {
   private static final Gson gson = new Gson();
-  private static final TeacherPersistence persistence = new TeacherPersistence();
+  private final TeacherPersistence teacherPersistence;
   private static final Logger log = getLogger(TeacherApi.class);
 
+  public TeacherApi(TeacherPersistence teacherPersistence) {
+    this.teacherPersistence = teacherPersistence;
+  }
+
   public List<Teacher> getAll(Request request, Response response) {
-    return persistence.getAll();
+    return teacherPersistence.getAll();
   }
 
   public List<Teacher> getAllFilteredByStudent(Request request, Response response) {
     // wez wszystkie przedmioty ktore sa dostepne dla nauczyciela i wez wszystkich uczniow
     // ktorzy moga sie uczyc tych przedmiotow i nie sa do nich przypisani
     String studentId = request.queryParams("studentId");
-    return persistence.getAll();
+    int subjectId = Integer.parseInt(request.queryParams("subjectId"));
+    return teacherPersistence.getAllByStudentAndSubject(studentId, subjectId);
   }
 
   public String add(Request request, Response response) {
@@ -42,7 +47,7 @@ public class TeacherApi {
             .setDisabled(false);
     try {
       teacher.setFirebaseId(FirebaseAuth.getInstance().createUser(firebaseRequest).getUid());
-      persistence.add(teacher);
+      teacherPersistence.add(teacher);
       response.status(HTTP_CREATED);
       return "Successfully created teacher";
     } catch (FirebaseAuthException e) {
@@ -52,13 +57,13 @@ public class TeacherApi {
   }
 
   public String update(Request request, Response response) {
-    persistence.update(gson.fromJson(request.body(), Teacher.class));
+    teacherPersistence.update(gson.fromJson(request.body(), Teacher.class));
     response.status(HTTP_OK);
     return "Successfully updated teacher";
   }
 
   public String delete(Request request, Response response) {
-    persistence.delete(request.queryParams("firebaseId"));
+    teacherPersistence.delete(request.queryParams("firebaseId"));
     try {
       FirebaseAuth.getInstance().deleteUser(request.queryParams("firebaseId"));
     } catch (FirebaseAuthException e) {
