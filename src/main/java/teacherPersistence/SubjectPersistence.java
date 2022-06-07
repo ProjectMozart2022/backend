@@ -2,13 +2,11 @@ package teacherPersistence;
 
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.Lesson;
-import model.Student;
-import model.Subject;
-import model.Teacher;
+import model.*;
 
 public class SubjectPersistence extends Persistence {
   public SubjectPersistence() {
@@ -35,9 +33,22 @@ public class SubjectPersistence extends Persistence {
   }
 
   public List<Subject> getAllByTeacher(Teacher teacher) {
-    return getAll().stream()
-        .filter(subject -> teacher.getKnownSubjects().contains(subject))
-        .collect(Collectors.toList());
+    return jdbi.inTransaction(
+            handle ->
+                handle
+                    .createQuery(create().locate("queries/subject/select_by_teacher"))
+                    .bind("teacher_id", teacher.getFirebaseId())
+                    .map(
+                        (rs, ctx) ->
+                            new Subject(
+                                rs.getInt("subject_id"),
+                                rs.getString("subject_name"),
+                                rs.getInt("subject_lesson_length"),
+                                Arrays.asList(
+                                    (Integer[]) rs.getArray("subject_class_range").getArray()),
+                                rs.getBoolean("subject_is_itn"),
+                                rs.getBoolean("subject_is_mandatory"),
+                                rs.getBoolean("subject_is_instrument_related"))).list());
   }
 
   public List<Subject> getAllUnassignedByStudent(Student student) {
