@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import model.Teacher;
 import org.slf4j.Logger;
-import teacherPersistence.TeacherPersistence;
+import persistence.TeacherPersistence;
 import spark.Request;
 
 public class Firebase {

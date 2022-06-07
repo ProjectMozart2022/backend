@@ -3,7 +3,7 @@ package api.dto;
 import model.Instrument;
 import model.Lesson;
 import model.Subject;
-import teacherPersistence.SubjectPersistence;
+import persistence.SubjectPersistence;
 
 import java.util.List;
 import java.util.stream.Collectors;

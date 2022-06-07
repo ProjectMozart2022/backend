@@ -2,8 +2,8 @@ package api;
 
 import com.google.gson.Gson;
 import model.Subject;
-import teacherPersistence.LessonPersistence;
-import teacherPersistence.SubjectPersistence;
+import persistence.LessonPersistence;
+import persistence.SubjectPersistence;
 import spark.Request;
 import spark.Response;
 

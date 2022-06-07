@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import java.util.stream.Collectors;
 import model.Teacher;
 import model.report.SummaryReport;
-import teacherPersistence.TeacherPersistence;
+import persistence.TeacherPersistence;
 import spark.Request;
 import spark.Response;
 

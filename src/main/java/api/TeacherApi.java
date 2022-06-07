@@ -1,27 +1,40 @@
 package api;
 
-import static java.net.HttpURLConnection.HTTP_CREATED;
-import static java.net.HttpURLConnection.HTTP_OK;
-import static org.slf4j.LoggerFactory.getLogger;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.gson.Gson;
-import java.util.List;
+import model.Student;
+import model.Subject;
 import model.Teacher;
 import org.slf4j.Logger;
-import teacherPersistence.TeacherPersistence;
+import persistence.StudentPersistence;
+import persistence.SubjectPersistence;
+import persistence.TeacherPersistence;
 import spark.Request;
 import spark.Response;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_OK;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class TeacherApi {
   private static final Gson gson = new Gson();
   private final TeacherPersistence teacherPersistence;
+  private final SubjectPersistence subjectPersistence;
+  private final StudentPersistence studentPersistence;
   private static final Logger log = getLogger(TeacherApi.class);
 
-  public TeacherApi(TeacherPersistence teacherPersistence) {
+  public TeacherApi(
+      TeacherPersistence teacherPersistence,
+      SubjectPersistence subjectPersistence,
+      StudentPersistence studentPersistence) {
     this.teacherPersistence = teacherPersistence;
+    this.subjectPersistence = subjectPersistence;
+    this.studentPersistence = studentPersistence;
   }
 
   public List<Teacher> getAll(Request request, Response response) {
@@ -29,9 +42,15 @@ public class TeacherApi {
   }
 
   public List<Teacher> getAllFilteredByStudent(Request request, Response response) {
-    String studentId = request.queryParams("studentId");
-    int subjectId = Integer.parseInt(request.queryParams("subjectId"));
-    return teacherPersistence.getAllByStudentAndSubject(studentId, subjectId);
+    Subject subject = subjectPersistence.getOne(Long.parseLong(request.queryParams("subjectId")));
+    Student student = studentPersistence.getOne(Integer.parseInt(request.queryParams("studentId")));
+    return teacherPersistence.getAll().stream()
+        .filter(
+            teacher ->
+                teacher.getKnownSubjects().contains(subject)
+                    && (!subject.isInstrumentRelated()
+                        || teacher.getTaughtInstruments().contains(student.getMainInstrument())))
+        .collect(Collectors.toList());
   }
 
   public String add(Request request, Response response) {

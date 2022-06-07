@@ -7,10 +7,10 @@ import api.security.Firebase;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import teacherPersistence.LessonPersistence;
-import teacherPersistence.StudentPersistence;
-import teacherPersistence.SubjectPersistence;
-import teacherPersistence.TeacherPersistence;
+import persistence.LessonPersistence;
+import persistence.StudentPersistence;
+import persistence.SubjectPersistence;
+import persistence.TeacherPersistence;
 
 public class Api {
   private static final Gson gson = new Gson();
@@ -41,7 +41,7 @@ public class Api {
                     "/student",
                     () -> {
                       get("", studentApi::getAll, gson::toJson);
-                      get("/byTeacher", studentApi::getAllFilteredByTeacher, gson::toJson);
+                      get("/byTeacher", studentApi::getAllByTeacherAndSubject, gson::toJson);
                       post("", studentApi::add, gson::toJson);
                       put("", studentApi::update, gson::toJson);
                       delete("", studentApi::delete, gson::toJson);

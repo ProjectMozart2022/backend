@@ -1,4 +1,4 @@
-package teacherPersistence;
+package persistence;
 
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
@@ -12,11 +12,11 @@ import model.Teacher;
 public class TeacherPersistence extends Persistence {
   private final LessonPersistence lessonPersistence = new LessonPersistence();
   private final SubjectPersistence subjectPersistence = new SubjectPersistence();
-  private final StudentPersistence studentPersistence = new StudentPersistence();
 
   public TeacherPersistence() {
     super();
   }
+
 
   public List<Teacher> getAll() {
     List<Teacher> teachers =
@@ -46,18 +46,6 @@ public class TeacherPersistence extends Persistence {
     teacher.setLessons(lessonPersistence.getAllByTeacher(teacher.getFirebaseId()));
     teacher.setKnownSubjects(subjectPersistence.getAllByTeacher(teacher));
     return teacher;
-  }
-
-  public List<Teacher> getAllByStudentAndSubject(String studentId, int subjectId) {
-    Subject subject = subjectPersistence.getOne(subjectId);
-    Student student = studentPersistence.getOne(Integer.parseInt(studentId));
-    return getAll().stream()
-        .filter(
-            teacher ->
-                teacher.getKnownSubjects().contains(subject)
-                    && (!subject.isInstrumentRelated()
-                        || teacher.getTaughtInstruments().contains(student.getMainInstrument())))
-        .collect(Collectors.toList());
   }
 
   public void add(Teacher teacher) {

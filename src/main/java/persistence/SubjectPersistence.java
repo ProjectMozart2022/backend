@@ -1,4 +1,4 @@
-package teacherPersistence;
+package persistence;
 
 import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
@@ -22,7 +22,7 @@ public class SubjectPersistence extends Persistence {
                 .list());
   }
 
-  public Subject getOne(int subjectId) {
+  public Subject getOne(Long subjectId) {
     return jdbi.inTransaction(
         handle ->
             handle
@@ -41,14 +41,13 @@ public class SubjectPersistence extends Persistence {
                     .map(
                         (rs, ctx) ->
                             new Subject(
-                                rs.getInt("subject_id"),
-                                rs.getString("subject_name"),
-                                rs.getInt("subject_lesson_length"),
-                                Arrays.asList(
-                                    (Integer[]) rs.getArray("subject_class_range").getArray()),
-                                rs.getBoolean("subject_is_itn"),
-                                rs.getBoolean("subject_is_mandatory"),
-                                rs.getBoolean("subject_is_instrument_related"))).list());
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getInt("lesson_length"),
+                                Arrays.asList((Integer[]) rs.getArray("class_range").getArray()),
+                                rs.getBoolean("is_itn"),
+                                rs.getBoolean("is_mandatory"),
+                                rs.getBoolean("is_instrument_related"))).list());
   }
 
   public List<Subject> getAllUnassignedByStudent(Student student) {

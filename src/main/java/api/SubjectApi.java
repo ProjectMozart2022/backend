@@ -7,9 +7,9 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import model.Subject;
-import teacherPersistence.StudentPersistence;
-import teacherPersistence.SubjectPersistence;
-import teacherPersistence.TeacherPersistence;
+import persistence.StudentPersistence;
+import persistence.SubjectPersistence;
+import persistence.TeacherPersistence;
 import spark.Request;
 import spark.Response;
 
