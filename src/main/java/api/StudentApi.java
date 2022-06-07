@@ -32,8 +32,12 @@ public class StudentApi {
     this.subjectPersistence = subjectPersistence;
   }
 
-  public List<Student> getAll(Request request, Response response) {
-    return studentPersistence.getAll();
+  public List<api.dto.Student> getAll(Request request, Response response) {
+    return convertToDto(studentPersistence.getAll());
+  }
+
+  private List<api.dto.Student> convertToDto(List<Student> students) {
+    return students.stream().map((Student student) -> api.dto.Student.fromStudent(student, subjectPersistence)).collect(Collectors.toList());
   }
 
   public List<api.dto.Student> getAllByTeacherAndSubject(Request request, Response response) {

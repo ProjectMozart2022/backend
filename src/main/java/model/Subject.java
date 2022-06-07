@@ -14,7 +14,14 @@ public class Subject {
 
   public Subject() {}
 
-  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn, boolean mandatory, boolean instrumentRelated) {
+  public Subject(
+      long id,
+      String name,
+      int lessonLength,
+      List<Integer> classRange,
+      boolean itn,
+      boolean mandatory,
+      boolean instrumentRelated) {
     this.id = id;
     this.name = name;
     this.lessonLength = lessonLength;
@@ -68,7 +75,9 @@ public class Subject {
     this.itn = itn;
   }
 
-  public boolean isMandatory() { return mandatory;}
+  public boolean isMandatory() {
+    return mandatory;
+  }
 
   public void setMandatory(boolean mandatory) {
     this.mandatory = mandatory;
@@ -80,5 +89,24 @@ public class Subject {
 
   public void setInstrumentRelated(boolean instrumentRelated) {
     this.instrumentRelated = instrumentRelated;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Subject subject = (Subject) o;
+    return id == subject.id
+        && lessonLength == subject.lessonLength
+        && itn == subject.itn
+        && mandatory == subject.mandatory
+        && instrumentRelated == subject.instrumentRelated
+        && Objects.equals(name, subject.name)
+        && Objects.equals(classRange, subject.classRange);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, lessonLength, classRange, itn, mandatory, instrumentRelated);
   }
 }

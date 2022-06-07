@@ -4,6 +4,8 @@ import static org.jdbi.v3.core.locator.ClasspathSqlLocator.create;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import model.*;
 
@@ -42,10 +44,11 @@ public class LessonPersistence extends Persistence {
                                 rs.getString("teacher_password"),
                                 rs.getInt("teacher_minimal_num_of_hours"),
                                 null,
-                                    //known subjects
-                                    Arrays.asList(
-                                            (Instrument[]) rs.getArray("teacher_taught_instruments").getArray()
-                                    )),
+                                Stream.of(
+                                        (String[])
+                                            rs.getArray("teacher_taught_instruments").getArray())
+                                    .map(Instrument::valueOf)
+                                    .collect(Collectors.toList())),
                             new Subject(
                                 rs.getInt("subject_id"),
                                 rs.getString("subject_name"),
@@ -54,8 +57,7 @@ public class LessonPersistence extends Persistence {
                                     (Integer[]) rs.getArray("subject_class_range").getArray()),
                                 rs.getBoolean("subject_is_itn"),
                                 rs.getBoolean("subject_is_mandatory"),
-                                rs.getBoolean("subject_is_instrument_related"))
-                          ))
+                                rs.getBoolean("subject_is_instrument_related"))))
                 .list());
   }
 
@@ -82,10 +84,11 @@ public class LessonPersistence extends Persistence {
                                 rs.getString("teacher_password"),
                                 rs.getInt("teacher_minimal_num_of_hours"),
                                 null,
-                                    //known subjects
-                                Arrays.asList(
-                                        (Instrument[]) rs.getArray("teacher_taught_instruments").getArray()
-                                )),
+                                Stream.of(
+                                        (String[])
+                                            rs.getArray("teacher_taught_instruments").getArray())
+                                    .map(Instrument::valueOf)
+                                    .collect(Collectors.toList())),
                             new Subject(
                                 rs.getInt("subject_id"),
                                 rs.getString("subject_name"),
@@ -94,8 +97,7 @@ public class LessonPersistence extends Persistence {
                                     (Integer[]) rs.getArray("subject_class_range").getArray()),
                                 rs.getBoolean("subject_is_itn"),
                                 rs.getBoolean("subject_is_mandatory"),
-                                rs.getBoolean("subject_is_instrument_related"))
-                        ))
+                                rs.getBoolean("subject_is_instrument_related"))))
                 .list());
   }
 }

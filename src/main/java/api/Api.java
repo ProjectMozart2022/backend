@@ -20,8 +20,11 @@ public class Api {
   private static final TeacherPersistence teacherPersistence = new TeacherPersistence();
   private static final SubjectApi subjectApi =
       new SubjectApi(subjectPersistence, teacherPersistence, studentPersistence);
-  private static final TeacherApi teacherApi = new TeacherApi(teacherPersistence);
-  private static final StudentApi studentApi = new StudentApi(studentPersistence);
+  private static final TeacherApi teacherApi =
+      new TeacherApi(teacherPersistence, subjectPersistence, studentPersistence);
+  private static final InstrumentApi instrumentApi = new InstrumentApi();
+  private static final StudentApi studentApi =
+      new StudentApi(studentPersistence, teacherPersistence, subjectPersistence);
   private static final LessonApi lessonApi = new LessonApi(lessonPersistence, subjectPersistence);
   private static final ReportApi reportApi = new ReportApi(teacherPersistence);
 
@@ -30,13 +33,13 @@ public class Api {
     port(config.getInt("mozart.api.port"));
     Firebase.enable(config.getString("mozart.security.serviceAccountKey"));
     Cors.enable();
-
     path(
         "/api",
         () -> {
           path(
               "/admin",
               () -> {
+                path("/instrument", () -> get("", instrumentApi::getAll, gson::toJson));
                 path(
                     "/student",
                     () -> {
