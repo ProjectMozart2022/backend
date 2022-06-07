@@ -20,7 +20,6 @@ public class TeacherPersistence extends Persistence {
     super();
   }
 
-
   public List<Teacher> getAll() {
     List<Teacher> teachers =
         jdbi.inTransaction(
@@ -54,7 +53,7 @@ public class TeacherPersistence extends Persistence {
   public void add(Teacher teacher) {
     jdbi.inTransaction(
         handle -> {
-            handle
+          handle
               .createUpdate(create().locate("queries/teacher/add"))
               .bind("firebase_id", teacher.getFirebaseId())
               .bind("first_name", teacher.getFirstName())
@@ -64,16 +63,17 @@ public class TeacherPersistence extends Persistence {
               .bind("minimal_num_of_hours", teacher.getMinimalNumOfHours())
               .bindByType("taught_instruments", teacher.getTaughtInstruments(), Instrument[].class)
               .execute();
-            PreparedBatch batch = handle.prepareBatch(create().locate("queries/teacher/add_known_subjects"));
-            teacher.getKnownSubjects().stream()
-                    .map(Subject::getId)
-                    .forEach(
-                            id ->
-                                    batch
-                                            .bind("teacher_id", teacher.getFirebaseId())
-                                            .bind("subject_id", id)
-                                            .add());
-            return batch.execute();
+          PreparedBatch batch =
+              handle.prepareBatch(create().locate("queries/teacher/add_known_subjects"));
+          teacher.getKnownSubjects().stream()
+              .map(Subject::getId)
+              .forEach(
+                  id ->
+                      batch
+                          .bind("teacher_id", teacher.getFirebaseId())
+                          .bind("subject_id", id)
+                          .add());
+          return batch.execute();
         });
   }
 
