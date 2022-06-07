@@ -10,6 +10,10 @@ public class SubjectPersistence extends Persistence {
     super();
   }
 
+  public SubjectPersistence(String jdbcUrl, String username, String password, int maximumPoolSize) {
+    super(jdbcUrl, username, password, maximumPoolSize);
+  }
+
   public List<Subject> getAll() {
     return jdbi.inTransaction(
         handle ->
