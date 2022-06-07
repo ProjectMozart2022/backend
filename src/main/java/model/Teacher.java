@@ -35,7 +35,7 @@ public class Teacher {
         firstName,
         lastName,
         lessons.stream()
-            .flatMapToInt(lesson -> IntStream.of(lesson.getProfile().getLessonLength()))
+            .flatMapToInt(lesson -> IntStream.of(lesson.getSubject().getLessonLength()))
             .sum());
   }
 

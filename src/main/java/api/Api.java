@@ -7,14 +7,23 @@ import api.security.Firebase;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import teacherPersistence.LessonPersistence;
+import teacherPersistence.StudentPersistence;
+import teacherPersistence.SubjectPersistence;
+import teacherPersistence.TeacherPersistence;
 
 public class Api {
   private static final Gson gson = new Gson();
-  private static final SubjectApi subjectApi = new SubjectApi();
-  private static final TeacherApi teacherApi = new TeacherApi();
-  private static final StudentApi studentApi = new StudentApi();
-  private static final LessonApi lessonApi = new LessonApi();
-  private static final ReportApi reportApi = new ReportApi();
+  private static final LessonPersistence lessonPersistence = new LessonPersistence();
+  private static final StudentPersistence studentPersistence = new StudentPersistence();
+  private static final SubjectPersistence subjectPersistence = new SubjectPersistence();
+  private static final TeacherPersistence teacherPersistence = new TeacherPersistence();
+  private static final SubjectApi subjectApi =
+      new SubjectApi(subjectPersistence, teacherPersistence, studentPersistence);
+  private static final TeacherApi teacherApi = new TeacherApi(teacherPersistence);
+  private static final StudentApi studentApi = new StudentApi(studentPersistence);
+  private static final LessonApi lessonApi = new LessonApi(lessonPersistence, subjectPersistence);
+  private static final ReportApi reportApi = new ReportApi(teacherPersistence);
 
   public static void main(String[] args) {
     Config config = ConfigFactory.load();
