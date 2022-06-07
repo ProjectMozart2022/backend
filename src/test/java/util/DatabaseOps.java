@@ -2,7 +2,6 @@ package util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,7 +39,7 @@ public class DatabaseOps {
     container.start();
     String parentPath = Path.of(System.getProperty("user.dir")).getParent().toString();
     Path path =
-            Path.of(parentPath + "/backend/src/main/resources/queries/database_initialization.sql");
+        Path.of(parentPath + "/backend/src/main/resources/queries/database_initialization.sql");
     try {
       performQuery(container, Files.readString(path));
     } catch (IOException | SQLException e) {

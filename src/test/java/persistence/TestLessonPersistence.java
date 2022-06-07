@@ -1,5 +1,8 @@
 package persistence;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 import model.Lesson;
 import model.Student;
 import model.Subject;
@@ -10,10 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 import util.DatabaseOps;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestLessonPersistence {
   private static final PostgreSQLContainer databaseContainer =
