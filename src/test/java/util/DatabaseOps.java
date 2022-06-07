@@ -2,6 +2,10 @@ package util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,5 +34,17 @@ public class DatabaseOps {
     hikariConfig.setDriverClassName(container.getDriverClassName());
     hikariConfig.setMaximumPoolSize(1);
     return new HikariDataSource(hikariConfig);
+  }
+
+  public static void initializeContainerWithEmptyDatabase(JdbcDatabaseContainer<?> container) {
+    container.start();
+    String parentPath = Path.of(System.getProperty("user.dir")).getParent().toString();
+    Path path =
+            Path.of(parentPath + "/backend/src/main/resources/queries/database_initialization.sql");
+    try {
+      performQuery(container, Files.readString(path));
+    } catch (IOException | SQLException e) {
+      e.printStackTrace();
+    }
   }
 }
