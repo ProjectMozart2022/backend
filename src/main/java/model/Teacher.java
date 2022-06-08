@@ -28,8 +28,7 @@ public class Teacher {
         firebaseId,
         firstName,
         lastName,
-        lessons
-            .stream()
+        lessons.stream()
             .flatMapToInt(lesson -> IntStream.of(lesson.getProfile().getLessonLength()))
             .sum());
   }
