@@ -10,15 +10,6 @@ import model.Subject;
 import model.Teacher;
 
 public class LessonPersistence extends Persistence {
-
-  public LessonPersistence(String jdbcUrl, String username, String password, int maximumPoolSize) {
-    super(jdbcUrl, username, password, maximumPoolSize);
-  }
-
-  public LessonPersistence() {
-    super();
-  }
-
   public void add(long studentId, String teacherId, long subjectId) {
     jdbi.inTransaction(
         handle ->
