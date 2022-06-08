@@ -1,0 +1,1 @@
+insert into known_subject (teacher_id, subject_id) values(:teacher_id, :subject_id);
