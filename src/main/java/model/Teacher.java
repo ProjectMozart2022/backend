@@ -11,16 +11,22 @@ public class Teacher {
   private String email;
   private String password;
   private List<Lesson> lessons;
+  private int minimalNumOfHours;
+  private List<Subject> knownSubjects;
+  private List<Instrument> taughtInstruments;
 
   public Teacher() {}
 
   public Teacher(
-      String firebaseId, String firstName, String lastName, String email, String password) {
+          String firebaseId, String firstName, String lastName, String email, String password, int minimalNumOfHours, List<Subject> knownSubjects, List<Instrument> taughtInstruments) {
     this.firebaseId = firebaseId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.minimalNumOfHours = minimalNumOfHours;
+    this.knownSubjects = knownSubjects;
+    this.taughtInstruments = taughtInstruments;
   }
 
   public TeacherReport report() {
@@ -29,7 +35,7 @@ public class Teacher {
         firstName,
         lastName,
         lessons.stream()
-            .flatMapToInt(lesson -> IntStream.of(lesson.getProfile().getLessonLength()))
+            .flatMapToInt(lesson -> IntStream.of(lesson.getSubject().getLessonLength()))
             .sum());
   }
 
@@ -80,4 +86,25 @@ public class Teacher {
   public void setFirebaseId(String firebaseId) {
     this.firebaseId = firebaseId;
   }
+
+  public int getMinimalNumOfHours() { return this.minimalNumOfHours; }
+
+  public void setMinimalNumOfHours(int minimalNumOfHours) { this.minimalNumOfHours = minimalNumOfHours; }
+
+  public List<Subject> getKnownSubjects() {
+    return knownSubjects;
+  }
+
+  public void setKnownSubjects(List<Subject> knownSubjects) {
+    this.knownSubjects = knownSubjects;
+  }
+
+  public List<Instrument> getTaughtInstruments() {
+    return taughtInstruments;
+  }
+
+  public void setTaughtInstruments(List<Instrument> taughtInstruments) {
+    this.taughtInstruments = taughtInstruments;
+  }
+
 }

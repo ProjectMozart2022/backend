@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Subject {
   private long id;
@@ -8,15 +9,26 @@ public class Subject {
   private int lessonLength;
   private List<Integer> classRange;
   private boolean itn;
+  private boolean mandatory;
+  private boolean instrumentRelated;
 
   public Subject() {}
 
-  public Subject(long id, String name, int lessonLength, List<Integer> classRange, boolean itn) {
+  public Subject(
+      long id,
+      String name,
+      int lessonLength,
+      List<Integer> classRange,
+      boolean itn,
+      boolean mandatory,
+      boolean instrumentRelated) {
     this.id = id;
     this.name = name;
     this.lessonLength = lessonLength;
     this.classRange = classRange;
     this.itn = itn;
+    this.mandatory = mandatory;
+    this.instrumentRelated = instrumentRelated;
   }
 
   public long getId() {
@@ -61,5 +73,40 @@ public class Subject {
 
   public void setItn(boolean itn) {
     this.itn = itn;
+  }
+
+  public boolean isMandatory() {
+    return mandatory;
+  }
+
+  public void setMandatory(boolean mandatory) {
+    this.mandatory = mandatory;
+  }
+
+  public boolean isInstrumentRelated() {
+    return instrumentRelated;
+  }
+
+  public void setInstrumentRelated(boolean instrumentRelated) {
+    this.instrumentRelated = instrumentRelated;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Subject subject = (Subject) o;
+    return id == subject.id
+        && lessonLength == subject.lessonLength
+        && itn == subject.itn
+        && mandatory == subject.mandatory
+        && instrumentRelated == subject.instrumentRelated
+        && Objects.equals(name, subject.name)
+        && Objects.equals(classRange, subject.classRange);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, lessonLength, classRange, itn, mandatory, instrumentRelated);
   }
 }

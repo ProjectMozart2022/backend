@@ -47,6 +47,7 @@ public class StudentPersistence extends Persistence {
                 .bind("first_name", student.getFirstName())
                 .bind("last_name", student.getLastName())
                 .bind("class_number", student.getClassNumber())
+                .bind("main_instrument", student.getMainInstrument())
                 .execute());
   }
 
@@ -59,6 +60,7 @@ public class StudentPersistence extends Persistence {
                 .bind("first_name", student.getFirstName())
                 .bind("last_name", student.getLastName())
                 .bind("class_number", student.getClassNumber())
+                .bind("main_instrument", student.getMainInstrument())
                 .execute());
   }
 
